@@ -11,7 +11,7 @@ const Home: NextPage = () => {
   const [drops, setDrops] = useState<any[]>([]);
 
   useEffect(() => {
-    fetch('https://accounts.broadwaymedia.com/api/v2/drops')
+    fetch('https://accounts.broadwaymedia.com/api/v2/drops?page%5Bsize%5D=25')
       .then((response) => response.json())
       .then((json_response) => deserialize(json_response))
       .then(({ data }) => setDrops(data));
