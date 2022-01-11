@@ -1,7 +1,8 @@
 import { AppstoreOutlined } from '@ant-design/icons';
 import { Input, Layout, Menu, Pagination, Row, Space } from 'antd';
+import debounce from 'lodash/debounce';
 import { GetStaticProps } from 'next';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import useSWR from 'swr';
 import { fetcher } from '../api';
 import DropCard from '../components/DropCard';
@@ -35,6 +36,14 @@ export default function Page({ initialDrops, themes }: Props) {
       fallback: { 'drops?page%5Bnumber%5D=1&page%5Bsize%5D=25': initialDrops },
     }
   );
+
+  const debouncedSetFilter = debounce(setFilter, 300);
+
+  useEffect(() => {
+    return () => {
+      debouncedSetFilter.cancel();
+    };
+  }, [debouncedSetFilter]);
 
   let drops;
   let totalDrops = 0;
@@ -74,7 +83,7 @@ export default function Page({ initialDrops, themes }: Props) {
           <Input
             placeholder="Filter by name..."
             allowClear
-            onChange={(e) => setFilter(e.target.value.toLowerCase())}
+            onChange={(e) => debouncedSetFilter(e.target.value.toLowerCase())}
             style={{ maxWidth: '500px' }}
           />
           {drops && (
