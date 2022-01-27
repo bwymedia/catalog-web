@@ -1,15 +1,18 @@
-import { Menu } from 'antd';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
+import { Menu, Space } from "antd";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import whiteLogoSrc from "../assets/white_logo.png";
+import catalogLogoSrc from "../assets/catalog_logo.webp";
+import Image from "next/image";
 
 const items = [
   {
-    text: 'Shows',
-    href: '/shows',
+    text: "Shows",
+    href: "/shows",
   },
   {
-    text: 'Drops',
-    href: '/drops',
+    text: "Drops",
+    href: "/drops",
   },
 ];
 
@@ -18,10 +21,18 @@ export default function TopBar() {
 
   return (
     <>
-      <div style={{ float: 'left', marginRight: '24px', color: 'white' }}>
-        <Link href="/">
-          <a>Broadway Media Catalog</a>
-        </Link>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          float: "left",
+          height: "100%",
+        }}
+      >
+        <Image src={whiteLogoSrc} alt="Broadway Media" height={48} width={80} />
+        <div style={{ width: "1em" }}></div>
+        <Image src={catalogLogoSrc} alt="Catalog" height={40} width={100} />
+        <div style={{ width: "1em" }}></div>
       </div>
       <Menu theme="dark" mode="horizontal" selectedKeys={[router.asPath]}>
         {items.map((item) => (
