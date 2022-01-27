@@ -1,5 +1,5 @@
-import { Button, Card, Checkbox, Tag, Typography } from 'antd';
-import React, { useEffect, useRef, useState } from 'react';
+import { Button, Card, Checkbox, Tag, Typography } from "antd";
+import React, { useEffect, useRef, useState } from "react";
 
 const { Title } = Typography;
 
@@ -38,17 +38,17 @@ export default function DropCard({ drop }: Props) {
       onMouseOver={animate}
       onMouseLeave={reset}
       cover={
-        drop.links.previewVideo && (
+        drop.previewVideo && (
           <video
             ref={videoRef}
-            src={drop.links.previewVideo}
+            src={drop.previewVideo}
             muted
             loop
             width="320"
           />
         )
       }
-      style={{ width: '320px' }}
+      style={{ width: "320px" }}
     >
       <Title level={5} style={{ margin: 0 }}>
         {drop.name} <Tag color="cyan">#{drop.id}</Tag>

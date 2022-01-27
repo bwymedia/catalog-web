@@ -2,6 +2,7 @@ import { deserialize } from "json-api-deserialize";
 import useSWR from "swr";
 
 const baseUrl = "https://accounts.broadwaymedia.com/api/v2/";
+// const baseUrl = "http://localhost:8080/api/v2/";
 
 export function useApi<T>(key: ApiKey, config?: any) {
   return useSWR<ApiDocument<T>>(key, apiFetcher, config);

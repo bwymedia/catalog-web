@@ -1,16 +1,11 @@
 type ApiResource = {
   id: string;
   type: string;
-  links: {
-    self: string;
-  };
 };
 
 type Drop = ApiResource & {
   name: string;
-  links: {
-    previewVideo?: string;
-  };
+  previewVideo?: string;
 };
 
 type Theme = ApiResource & {
