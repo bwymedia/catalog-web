@@ -1,62 +1,55 @@
-import { AppstoreOutlined } from '@ant-design/icons';
-import { Input, Layout, Menu, Pagination, Row, Space } from 'antd';
-import debounce from 'lodash/debounce';
-import { GetStaticProps } from 'next';
-import { useEffect, useState } from 'react';
-import useSWR from 'swr';
-import { fetcher } from '../api';
-import DropCard from '../components/DropCard';
+import { AppstoreOutlined } from "@ant-design/icons";
+import { Input, Layout, Menu, Pagination, Row, Space } from "antd";
+import debounce from "lodash/debounce";
+import { useEffect, useState } from "react";
+import { unstable_serialize } from "swr";
+import { apiFetcher, useApi } from "../api";
+import DropCard from "../components/DropCard";
 
 const { Content, Sider } = Layout;
 
-interface Props {
-  initialDrops: DeserializedApiDocument<Drop[]>;
-  themes: Theme[];
+export async function getStaticProps() {
+  const key = { path: "drops", params: dropsParams(1, "", "-1") };
+  const initialDropsData = await apiFetcher<Drop[]>(key);
+  const fallback = {
+    [unstable_serialize(key)]: initialDropsData,
+  };
+
+  const themesData = await apiFetcher<Theme[]>({ path: "themes" });
+  const themes: Theme[] = themesData.data;
+  return {
+    props: { themes, fallback },
+    revalidate: 60,
+  };
 }
 
-const pathForOptions = (pageNumber: number, filter: string, tag: string) => {
-  const searchParams = new URLSearchParams({
-    'page[number]': pageNumber.toString(),
-    'page[size]': '25',
-  });
-  if (filter) searchParams.set('filter[name]', filter);
-  if (tag !== '-1') searchParams.set('filter[theme_id]', tag);
-  return `drops?${searchParams}`;
-};
+interface Props {
+  themes: Theme[];
+  fallback: {
+    [key: string]: any;
+  };
+}
 
-export default function Page({ initialDrops, themes }: Props) {
+export default function Page({ themes, fallback }: Props) {
   const [pageNumber, setPageNumber] = useState(1);
-  const [filter, setFilter] = useState('');
-  const [tag, setTag] = useState('-1');
+  const [filter, setFilter] = useState("");
+  const [tag, setTag] = useState("-1");
 
-  const { data } = useSWR<DeserializedApiDocument<Drop[]>>(
-    pathForOptions(pageNumber, filter, tag),
-    fetcher,
-    {
-      fallback: { 'drops?page%5Bnumber%5D=1&page%5Bsize%5D=25': initialDrops },
-    }
-  );
+  const key = { path: "drops", params: dropsParams(pageNumber, filter, tag) };
+  const { data: dropsData } = useApi<Drop[]>(key, { fallback });
 
   const debouncedSetFilter = debounce(setFilter, 300);
-
   useEffect(() => {
     return () => {
       debouncedSetFilter.cancel();
     };
   }, [debouncedSetFilter]);
 
-  let drops;
   let totalDrops = 0;
-  if (data) {
-    drops = data.data;
-    if (data.links.last) {
-      const lastPageUrl = new URL(data.links.last);
-      const lastPageNumber = lastPageUrl.searchParams.get('page[number]');
-      const lastPageSize = lastPageUrl.searchParams.get('page[size]');
-      if (lastPageNumber && lastPageSize) {
-        totalDrops = parseInt(lastPageNumber) * parseInt(lastPageSize);
-      }
-    }
+  let drops: Drop[] = [];
+  if (dropsData) {
+    totalDrops = parseTotal(dropsData.links);
+    drops = dropsData.data;
   }
 
   return (
@@ -68,7 +61,7 @@ export default function Page({ initialDrops, themes }: Props) {
           onSelect={({ key }) => {
             setTag(key);
           }}
-          style={{ height: '100%', overflow: 'auto' }}
+          style={{ height: "100%", overflow: "auto" }}
         >
           <Menu.Item key="-1" icon={<AppstoreOutlined />}>
             All
@@ -78,13 +71,13 @@ export default function Page({ initialDrops, themes }: Props) {
           ))}
         </Menu>
       </Sider>
-      <Content style={{ padding: '24px', height: '100%', overflow: 'auto' }}>
-        <Space size="middle" direction="vertical" style={{ width: '100%' }}>
+      <Content style={{ padding: "24px", height: "100%", overflow: "auto" }}>
+        <Space size="middle" direction="vertical" style={{ width: "100%" }}>
           <Input
             placeholder="Filter by name..."
             allowClear
             onChange={(e) => debouncedSetFilter(e.target.value.toLowerCase())}
-            style={{ maxWidth: '500px' }}
+            style={{ maxWidth: "500px" }}
           />
           {drops && (
             <>
@@ -112,22 +105,24 @@ export default function Page({ initialDrops, themes }: Props) {
   );
 }
 
-export const getStaticProps: GetStaticProps<Props> = async (context) => {
-  const initialDrops = await fetcher<Drop[]>(pathForOptions(1, '', '-1'));
-  const { data: themes } = await fetcher<Theme[]>('themes?sort=name');
-
-  return {
-    props: {
-      initialDrops,
-      themes,
-    },
+function dropsParams(pageNumber: number, filter: string, tag: string) {
+  const params: ApiParams = {
+    "page[number]": pageNumber.toString(),
+    "page[size]": "25",
   };
-};
+  if (filter) params["filter[name]"] = filter;
+  if (tag !== "-1") params["filter[theme_id]"] = tag;
+  return params;
+}
 
-const dropMatchesFilter = (drop: Drop, filter: string): boolean => {
-  if (filter) {
-    return drop.name.toLowerCase().includes(filter);
+function parseTotal({ last }: PageLinks) {
+  if (!last) return 0;
+  const url = new URL(last);
+  const lastPageNumber = url.searchParams.get("page[number]");
+  const lastPageSize = url.searchParams.get("page[size]");
+  if (lastPageNumber && lastPageSize) {
+    return parseInt(lastPageNumber) * parseInt(lastPageSize);
   } else {
-    return true;
+    return 0;
   }
-};
+}

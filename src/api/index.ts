@@ -1,38 +1,26 @@
-import { deserialize } from 'json-api-deserialize';
+import { deserialize } from "json-api-deserialize";
+import useSWR from "swr";
 
-const baseUrl = 'https://accounts.broadwaymedia.com/api/v2/';
-// const baseUrl = 'http://0.0.0.0:8080/api/v2/';
+const baseUrl = "https://accounts.broadwaymedia.com/api/v2/";
 
-async function apiRequest<T>(
-  path: string,
-  params: Record<string, any>,
-  requestInit: RequestInit
-) {
-  const url = new URL(path, baseUrl);
-  url.search = new URLSearchParams(params).toString();
-  const response = await fetch(url.toString(), requestInit);
-  const parsed = await response.json();
-  const { data } = deserialize(parsed);
-  return data as T;
+export function useApi<T>(key: ApiKey, config?: any) {
+  return useSWR<ApiDocument<T>>(key, apiFetcher, config);
 }
 
-export function apiGet<T>(path: string, params: Record<string, any> = {}) {
-  return apiRequest<T>(path, params, {
-    method: 'GET',
-    headers: {
-      Accept: 'application/vnd.api+json',
-    },
-  });
-}
+const apiFetchRequest = {
+  method: "GET",
+  headers: {
+    Accept: "application/vnd.api+json",
+  },
+};
 
-export async function fetcher<T>(path: string) {
+export async function apiFetcher<T>({ path, params }: ApiKey) {
   const url = new URL(path, baseUrl);
-  const response = await fetch(url.toString(), {
-    method: 'GET',
-    headers: {
-      Accept: 'application/vnd.api+json',
-    },
-  });
+  if (params) url.search = new URLSearchParams(params).toString();
+  const response = await fetch(url.toString(), apiFetchRequest);
   const parsed = await response.json();
-  return deserialize(parsed) as DeserializedApiDocument<T>;
+  const deserialized: ApiDocument<T> = deserialize(parsed);
+  if (typeof window !== "undefined")
+    console.log(`Fetched: ${url}`, deserialized);
+  return deserialized;
 }
