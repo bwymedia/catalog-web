@@ -1,9 +1,9 @@
-import { Menu, Space } from "antd";
+import { Menu } from "antd";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import whiteLogoSrc from "../assets/white_logo.png";
 import catalogLogoSrc from "../assets/catalog_logo.webp";
-import Image from "next/image";
+import whiteLogoSrc from "../assets/white_logo.png";
 
 const items = [
   {
