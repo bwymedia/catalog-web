@@ -1,15 +1,15 @@
 import { AppstoreOutlined } from "@ant-design/icons";
-import { Input, Layout, Menu, Pagination, Row, Space } from "antd";
-import debounce from "lodash/debounce";
-import { useEffect, useState } from "react";
+import { Layout, Menu, Pagination, Row, Space } from "antd";
+import { useState } from "react";
 import { unstable_serialize } from "swr";
 import { apiFetcher, useApi } from "../api";
 import DropCard from "../components/DropCard";
+import DropSearchForm from "../components/DropSearchForm";
 
 const { Content, Sider } = Layout;
 
 export async function getStaticProps() {
-  const key = { path: "drops", params: dropsParams(1, "", "-1") };
+  const key = { path: "drops", params: dropsParams(1, "", "-1", "", "", "") };
   const initialDropsData = await apiFetcher<Drop[]>(key);
   const fallback = {
     [unstable_serialize(key)]: initialDropsData,
@@ -33,17 +33,16 @@ interface Props {
 export default function Page({ themes, fallback }: Props) {
   const [pageNumber, setPageNumber] = useState(1);
   const [filter, setFilter] = useState("");
+  const [location, setLocation] = useState("");
+  const [timeOfDay, setTimeOfDay] = useState("");
+  const [style, setStyle] = useState("");
   const [tag, setTag] = useState("-1");
 
-  const key = { path: "drops", params: dropsParams(pageNumber, filter, tag) };
-  const { data: dropsData } = useApi<Drop[]>(key, { fallback });
-
-  const debouncedSetFilter = debounce(setFilter, 300);
-  useEffect(() => {
-    return () => {
-      debouncedSetFilter.cancel();
-    };
-  }, [debouncedSetFilter]);
+  const dropsKey = {
+    path: "drops",
+    params: dropsParams(pageNumber, filter, tag, style, location, timeOfDay),
+  };
+  const { data: dropsData } = useApi<Drop[]>(dropsKey, { fallback });
 
   let totalDrops = 0;
   let drops: Drop[] = [];
@@ -73,11 +72,13 @@ export default function Page({ themes, fallback }: Props) {
       </Sider>
       <Content style={{ padding: "24px", height: "100%", overflow: "auto" }}>
         <Space size="middle" direction="vertical" style={{ width: "100%" }}>
-          <Input
-            placeholder="Filter by name..."
-            allowClear
-            onChange={(e) => debouncedSetFilter(e.target.value.toLowerCase())}
-            style={{ maxWidth: "500px" }}
+          <DropSearchForm
+            onSubmit={({ name, style, location, timeOfDay }) => {
+              setFilter(name);
+              setStyle(style);
+              setLocation(location);
+              setTimeOfDay(timeOfDay);
+            }}
           />
           {drops && (
             <>
@@ -105,13 +106,22 @@ export default function Page({ themes, fallback }: Props) {
   );
 }
 
-function dropsParams(pageNumber: number, filter: string, tag: string) {
+function dropsParams(
+  pageNumber: number,
+  filter: string,
+  tag: string,
+  style: string,
+  location: string,
+  timeOfDay: string
+) {
   const params: ApiParams = {
     "page[number]": pageNumber.toString(),
     "page[size]": "25",
   };
   if (filter) params["filter[name]"] = filter;
   if (tag !== "-1") params["filter[theme_id]"] = tag;
+  if (location) params["filter[location]"] = location;
+  if (timeOfDay) params["filter[time_of_day]"] = timeOfDay;
   return params;
 }
 
