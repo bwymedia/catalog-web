@@ -30,6 +30,11 @@ type Scene = ApiResource & {
   };
 };
 
+type DropTag = ApiResource & {
+  name: string;
+  kind: string;
+};
+
 type PageLinks = {
   first?: string;
   next?: string;

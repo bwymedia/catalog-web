@@ -9,40 +9,46 @@ import DropSearchForm from "../components/DropSearchForm";
 const { Content, Sider } = Layout;
 
 export async function getStaticProps() {
-  const key = { path: "drops", params: dropsParams(1, "", "-1", "", "", "") };
-  const initialDropsData = await apiFetcher<Drop[]>(key);
-  const fallback = {
-    [unstable_serialize(key)]: initialDropsData,
-  };
+  const showsData = await apiFetcher<DropTag[]>({
+    path: "drop-tags",
+    params: { "filter[kind]": "show" },
+  });
+  const shows: DropTag[] = showsData.data;
 
-  const themesData = await apiFetcher<Theme[]>({ path: "themes" });
-  const themes: Theme[] = themesData.data;
+  const stylesData = await apiFetcher<DropTag[]>({
+    path: "drop-tags",
+    params: { "filter[kind]": "style" },
+  });
+  const styles: DropTag[] = stylesData.data;
+
   return {
-    props: { themes, fallback },
+    props: { shows, styles },
     revalidate: 60,
   };
 }
 
 interface Props {
-  themes: Theme[];
-  fallback: {
-    [key: string]: any;
-  };
+  shows: DropTag[];
+  styles: DropTag[];
 }
 
-export default function Page({ themes, fallback }: Props) {
+export default function Page({ shows, styles }: Props) {
   const [pageNumber, setPageNumber] = useState(1);
   const [filter, setFilter] = useState("");
   const [location, setLocation] = useState("");
   const [timeOfDay, setTimeOfDay] = useState("");
   const [style, setStyle] = useState("");
-  const [tag, setTag] = useState("-1");
+  const [show, setShow] = useState("-1");
 
   const dropsKey = {
     path: "drops",
-    params: dropsParams(pageNumber, filter, tag, style, location, timeOfDay),
+    params: dropsParams(pageNumber, filter, show, style, location, timeOfDay),
   };
-  const { data: dropsData } = useApi<Drop[]>(dropsKey, { fallback });
+  const { data: dropsData } = useApi<Drop[]>(dropsKey, {
+    revalidateIfStale: false,
+    revalidateOnFocus: false,
+    revalidateOnReconnect: false,
+  });
 
   let totalDrops = 0;
   let drops: Drop[] = [];
@@ -56,23 +62,24 @@ export default function Page({ themes, fallback }: Props) {
       <Sider width={200}>
         <Menu
           mode="inline"
-          selectedKeys={[tag]}
+          selectedKeys={[show]}
           onSelect={({ key }) => {
-            setTag(key);
+            setShow(key);
           }}
           style={{ height: "100%", overflow: "auto" }}
         >
           <Menu.Item key="-1" icon={<AppstoreOutlined />}>
             All
           </Menu.Item>
-          {themes.map((theme) => (
-            <Menu.Item key={theme.id}>{theme.name}</Menu.Item>
+          {shows.map((show) => (
+            <Menu.Item key={show.id}>{show.name}</Menu.Item>
           ))}
         </Menu>
       </Sider>
       <Content style={{ padding: "24px", height: "100%", overflow: "auto" }}>
         <Space size="middle" direction="vertical" style={{ width: "100%" }}>
           <DropSearchForm
+            styles={styles}
             onSubmit={({ name, style, location, timeOfDay }) => {
               setFilter(name);
               setStyle(style);
@@ -109,7 +116,7 @@ export default function Page({ themes, fallback }: Props) {
 function dropsParams(
   pageNumber: number,
   filter: string,
-  tag: string,
+  show: string,
   style: string,
   location: string,
   timeOfDay: string
@@ -119,9 +126,14 @@ function dropsParams(
     "page[size]": "25",
   };
   if (filter) params["filter[name]"] = filter;
-  if (tag !== "-1") params["filter[theme_id]"] = tag;
+  if (show !== "-1") params["filter[drop_tag_ids]"] = show;
   if (location) params["filter[location]"] = location;
   if (timeOfDay) params["filter[time_of_day]"] = timeOfDay;
+  const dropTagIds = [];
+  if (show !== "-1") dropTagIds.push(show);
+  if (style) dropTagIds.push(style);
+  if (dropTagIds.length > 0)
+    params["filter[drop_tag_ids]"] = dropTagIds.join(",");
   return params;
 }
 

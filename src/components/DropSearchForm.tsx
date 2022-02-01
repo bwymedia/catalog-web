@@ -10,10 +10,11 @@ interface FormData {
 }
 
 interface Props {
+  styles: DropTag[];
   onSubmit: (values: FormData) => void;
 }
 
-export default function DropSearchForm({ onSubmit }: Props) {
+export default function DropSearchForm({ styles, onSubmit }: Props) {
   const [form] = Form.useForm<FormData>();
 
   return (
@@ -23,10 +24,11 @@ export default function DropSearchForm({ onSubmit }: Props) {
       </Form.Item>
       <Form.Item label="Style" name="style">
         <Select allowClear style={{ width: 150 }}>
-          <Option value="abstract">Abstract</Option>
-          <Option value="arches">Arches</Option>
-          <Option value="art_deco">Art Deco</Option>
-          <Option value="banners">Banners</Option>
+          {styles.map((style) => (
+            <Option key={style.id} value={style.id}>
+              {style.name}
+            </Option>
+          ))}
         </Select>
       </Form.Item>
       <Form.Item label="Location" name="location">
