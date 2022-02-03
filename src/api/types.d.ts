@@ -8,7 +8,7 @@ type Drop = ApiResource & {
   previewVideo?: string;
 };
 
-type Theme = ApiResource & {
+type Tag = ApiResource & {
   name: string;
 };
 
@@ -28,11 +28,6 @@ type Scene = ApiResource & {
   links: {
     previewVideo?: string;
   };
-};
-
-type DropTag = ApiResource & {
-  name: string;
-  kind: string;
 };
 
 type PageLinks = {

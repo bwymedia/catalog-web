@@ -1,7 +1,6 @@
 import { AppstoreOutlined } from "@ant-design/icons";
 import { Layout, Menu, Pagination, Row, Space } from "antd";
 import { useState } from "react";
-import { unstable_serialize } from "swr";
 import { apiFetcher, useApi } from "../api";
 import DropCard from "../components/DropCard";
 import DropSearchForm from "../components/DropSearchForm";
@@ -9,46 +8,43 @@ import DropSearchForm from "../components/DropSearchForm";
 const { Content, Sider } = Layout;
 
 export async function getStaticProps() {
-  const showsData = await apiFetcher<DropTag[]>({
-    path: "drop-tags",
-    params: { "filter[kind]": "show" },
+  const { data: shows } = await apiFetcher<Show[]>({
+    path: "shows",
+    params: { sort: "title" },
   });
-  const shows: DropTag[] = showsData.data;
-
-  const stylesData = await apiFetcher<DropTag[]>({
-    path: "drop-tags",
-    params: { "filter[kind]": "style" },
+  const { data: tags } = await apiFetcher<Tag[]>({
+    path: "tags",
+    params: { sort: "name" },
   });
-  const styles: DropTag[] = stylesData.data;
-
   return {
-    props: { shows, styles },
+    props: { shows, tags },
     revalidate: 60,
   };
 }
 
 interface Props {
-  shows: DropTag[];
-  styles: DropTag[];
+  shows: Show[];
+  tags: Tag[];
 }
 
-export default function Page({ shows, styles }: Props) {
+export default function Page({ shows, tags }: Props) {
   const [pageNumber, setPageNumber] = useState(1);
   const [filter, setFilter] = useState("");
   const [location, setLocation] = useState("");
   const [timeOfDay, setTimeOfDay] = useState("");
-  const [style, setStyle] = useState("");
-  const [show, setShow] = useState("-1");
+  const [tagId, setTagId] = useState("");
+  const [showId, setShowId] = useState("-1");
 
-  const dropsKey = {
-    path: "drops",
-    params: dropsParams(pageNumber, filter, show, style, location, timeOfDay),
+  const params: ApiParams = {
+    "page[number]": pageNumber.toString(),
+    "page[size]": "25",
   };
-  const { data: dropsData } = useApi<Drop[]>(dropsKey, {
-    revalidateIfStale: false,
-    revalidateOnFocus: false,
-    revalidateOnReconnect: false,
-  });
+  if (filter) params["filter[name]"] = filter;
+  if (showId !== "-1") params["filter[show_ids]"] = showId;
+  if (tagId) params["filter[tag_ids]"] = tagId;
+  if (location) params["filter[location]"] = location;
+  if (timeOfDay) params["filter[time_of_day]"] = timeOfDay;
+  const { data: dropsData } = useApi<Drop[]>({ path: "drops", params });
 
   let totalDrops = 0;
   let drops: Drop[] = [];
@@ -62,9 +58,9 @@ export default function Page({ shows, styles }: Props) {
       <Sider width={200}>
         <Menu
           mode="inline"
-          selectedKeys={[show]}
+          selectedKeys={[showId]}
           onSelect={({ key }) => {
-            setShow(key);
+            setShowId(key);
           }}
           style={{ height: "100%", overflow: "auto" }}
         >
@@ -72,17 +68,17 @@ export default function Page({ shows, styles }: Props) {
             All
           </Menu.Item>
           {shows.map((show) => (
-            <Menu.Item key={show.id}>{show.name}</Menu.Item>
+            <Menu.Item key={show.id}>{show.title}</Menu.Item>
           ))}
         </Menu>
       </Sider>
       <Content style={{ padding: "24px", height: "100%", overflow: "auto" }}>
         <Space size="middle" direction="vertical" style={{ width: "100%" }}>
           <DropSearchForm
-            styles={styles}
-            onSubmit={({ name, style, location, timeOfDay }) => {
+            tags={tags}
+            onSubmit={({ name, tagId, location, timeOfDay }) => {
               setFilter(name);
-              setStyle(style);
+              setTagId(tagId);
               setLocation(location);
               setTimeOfDay(timeOfDay);
             }}
@@ -111,30 +107,6 @@ export default function Page({ shows, styles }: Props) {
       </Content>
     </Layout>
   );
-}
-
-function dropsParams(
-  pageNumber: number,
-  filter: string,
-  show: string,
-  style: string,
-  location: string,
-  timeOfDay: string
-) {
-  const params: ApiParams = {
-    "page[number]": pageNumber.toString(),
-    "page[size]": "25",
-  };
-  if (filter) params["filter[name]"] = filter;
-  if (show !== "-1") params["filter[drop_tag_ids]"] = show;
-  if (location) params["filter[location]"] = location;
-  if (timeOfDay) params["filter[time_of_day]"] = timeOfDay;
-  const dropTagIds = [];
-  if (show !== "-1") dropTagIds.push(show);
-  if (style) dropTagIds.push(style);
-  if (dropTagIds.length > 0)
-    params["filter[drop_tag_ids]"] = dropTagIds.join(",");
-  return params;
 }
 
 function parseTotal({ last }: PageLinks) {

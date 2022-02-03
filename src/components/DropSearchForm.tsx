@@ -4,17 +4,17 @@ const { Option } = Select;
 
 interface FormData {
   name: string;
-  style: string;
+  tagId: string;
   location: string;
   timeOfDay: string;
 }
 
 interface Props {
-  styles: DropTag[];
+  tags: Tag[];
   onSubmit: (values: FormData) => void;
 }
 
-export default function DropSearchForm({ styles, onSubmit }: Props) {
+export default function DropSearchForm({ tags, onSubmit }: Props) {
   const [form] = Form.useForm<FormData>();
 
   return (
@@ -22,11 +22,11 @@ export default function DropSearchForm({ styles, onSubmit }: Props) {
       <Form.Item label="Name" name="name">
         <Input allowClear />
       </Form.Item>
-      <Form.Item label="Style" name="style">
+      <Form.Item label="Tag" name="tagId">
         <Select allowClear style={{ width: 150 }}>
-          {styles.map((style) => (
-            <Option key={style.id} value={style.id}>
-              {style.name}
+          {tags.map((tag) => (
+            <Option key={tag.id} value={tag.id}>
+              {tag.name}
             </Option>
           ))}
         </Select>
@@ -39,7 +39,10 @@ export default function DropSearchForm({ styles, onSubmit }: Props) {
       </Form.Item>
       <Form.Item label="Time of Day" name="timeOfDay">
         <Select allowClear style={{ width: 100 }}>
+          <Option value="Sunrise">Sunrise</Option>
+          <Option value="Morning">Morning</Option>
           <Option value="Day">Day</Option>
+          <Option value="Sunset">Sunset</Option>
           <Option value="Night">Night</Option>
         </Select>
       </Form.Item>
