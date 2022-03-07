@@ -44,6 +44,11 @@ export default function Page({ shows, tags }: Props) {
   if (tagId) params["filter[tag_ids]"] = tagId;
   if (location) params["filter[location]"] = location;
   if (timeOfDay) params["filter[time_of_day]"] = timeOfDay;
+  if (filter || showId !== "-1" || tagId || location || timeOfDay) {
+    params["sort"] = "name";
+  } else {
+    params["sort"] = "featured_rank,name";
+  }
   const { data: dropsData } = useApi<Drop[]>({ path: "drops", params });
 
   let totalDrops = 0;
