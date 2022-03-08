@@ -1,5 +1,5 @@
 import { Layout, Menu } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useSWR from "swr";
 import { apiFetcher, useApi } from "../api";
 import PreviewTabs from "../components/PreviewTabs";
@@ -20,11 +20,21 @@ export default function Page() {
     },
     apiFetcher
   );
+  const [scenes, setScenes] = useState<Scene[]>([]);
 
-  let shows: Show[] = [];
-  if (showsData) shows = showsData.data;
-  let scenes: Scene[] = [];
-  if (packageData) scenes = packageData.data.scenes;
+  useEffect(() => {
+    if (!packageData || !packageData.data) return;
+
+    const newScenes = [...packageData.data.scenes];
+    newScenes.sort((a, b) =>
+      a.actOrder === b.actOrder
+        ? a.sceneOrder - b.sceneOrder
+        : a.actOrder - b.actOrder
+    );
+    setScenes(newScenes);
+  }, [packageData]);
+
+  let shows = showsData && showsData.data ? showsData.data : [];
 
   return (
     <Layout>

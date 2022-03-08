@@ -25,6 +25,8 @@ type Show = ApiResource & {
 
 type Scene = ApiResource & {
   name: string;
+  actOrder: number;
+  sceneOrder: number;
   links: {
     previewVideo?: string;
   };
