@@ -64,7 +64,9 @@ export default function Page() {
             } else if (show.packages && show.packages.length === 1) {
               return (
                 <Menu.Item key={`package-${show.packages[0].id}`}>
-                  {show.title}
+                  {show.packages[0].name === "Regular"
+                    ? show.title
+                    : show.title + " " + show.packages[0].name}
                 </Menu.Item>
               );
             } else {
