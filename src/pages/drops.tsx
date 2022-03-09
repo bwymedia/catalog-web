@@ -1,21 +1,22 @@
 import { AppstoreOutlined } from "@ant-design/icons";
 import { Layout, Menu, Pagination, Row, Space } from "antd";
 import { useState } from "react";
-import { apiFetcher, useApi } from "../api";
+import fetcher from "../api/fetcher";
+import useApi from "../api/useApi";
 import DropCard from "../components/DropCard";
 import DropSearchForm from "../components/DropSearchForm";
 
 const { Content, Sider } = Layout;
 
 export async function getStaticProps() {
-  const { data: shows } = await apiFetcher<Show[]>({
+  const { data: shows } = (await fetcher({
     path: "shows",
     params: { sort: "title" },
-  });
-  const { data: tags } = await apiFetcher<Tag[]>({
+  })) as ApiDocument<Show[]>;
+  const { data: tags } = (await fetcher({
     path: "tags",
     params: { sort: "name" },
-  });
+  })) as ApiDocument<Tag[]>;
   return {
     props: { shows, tags },
     revalidate: 60,

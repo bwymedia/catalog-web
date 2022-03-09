@@ -1,7 +1,6 @@
 import { Layout, Menu } from "antd";
 import { useEffect, useState } from "react";
-import useSWR from "swr";
-import { apiFetcher, useApi } from "../api";
+import useApi from "../api/useApi";
 import PreviewTabs from "../components/PreviewTabs";
 
 const { Content, Sider } = Layout;
@@ -11,14 +10,17 @@ export default function Page() {
   const [packageId, setPackageId] = useState("");
   const { data: showsData } = useApi<Show[]>({
     path: "shows",
-    params: { include: "packages", sort: "title" },
+    params: {
+      include: "packages",
+      sort: "title",
+      "fields[packages]": "name",
+    },
   });
-  const { data: packageData } = useSWR<ApiDocument<Package>>(
+  const { data: packageData } = useApi<Package>(
     packageId && {
       path: `packages/${packageId}`,
       params: { include: "scenes" },
-    },
-    apiFetcher
+    }
   );
   const [scenes, setScenes] = useState<Scene[]>([]);
 
@@ -45,12 +47,13 @@ export default function Page() {
           onSelect={({ key }) => {
             const match = key.match(/package-(\d+)/);
             if (match) {
+              setScenes([]);
               setPackageId(match[1]);
             }
           }}
         >
           {shows.map((show) => {
-            if (show.packages.length > 1) {
+            if (show.packages && show.packages.length > 1) {
               return (
                 <SubMenu key={`show-${show.id}`} title={show.title}>
                   {show.packages.map((p) => (
@@ -58,7 +61,7 @@ export default function Page() {
                   ))}
                 </SubMenu>
               );
-            } else if (show.packages.length === 1) {
+            } else if (show.packages && show.packages.length === 1) {
               return (
                 <Menu.Item key={`package-${show.packages[0].id}`}>
                   {show.title}
@@ -71,7 +74,10 @@ export default function Page() {
         </Menu>
       </Sider>
       <Content style={{ padding: "24px", height: "100%", overflow: "auto" }}>
-        <PreviewTabs scenes={scenes} />
+        <PreviewTabs
+          scenes={scenes}
+          curtainWarmer={packageData?.data?.curtainWarmerPreview}
+        />
       </Content>
     </Layout>
   );

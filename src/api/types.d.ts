@@ -15,12 +15,13 @@ type Tag = ApiResource & {
 type Package = ApiResource & {
   name: string;
   show: Show;
+  curtainWarmerPreview: string;
   scenes: Scene[];
 };
 
 type Show = ApiResource & {
   title: string;
-  packages: Package[];
+  packages?: Package[];
 };
 
 type Scene = ApiResource & {
