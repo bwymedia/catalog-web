@@ -10,7 +10,7 @@ interface Props {
 
 export default function PreviewTabs({ scenes, curtainWarmer }: Props) {
   return (
-    <Tabs tabPosition="left">
+    <Tabs tabPosition="left" tabBarStyle={{ maxWidth: "400px" }}>
       {curtainWarmer && (
         <TabPane tab="Curtain Warmer">
           <video
