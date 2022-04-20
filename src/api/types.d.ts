@@ -33,6 +33,35 @@ type Scene = ApiResource & {
   };
 };
 
+type ChoreoGuide = ApiResource & {
+  slug: string;
+  showTitle: string;
+  choreographer?: string;
+  producer?: string;
+  otherCredits?: string;
+  marketingDescription?: string;
+  marketingImage?: string;
+  songs: ChoreoSong[];
+  hasAccess: boolean;
+};
+
+type ChoreoSong = {
+  id: number;
+  name: string;
+  description: string;
+  previewVideo: string | false;
+  previewThumbnail: string | false;
+  videos: ChoreoVideo[];
+};
+
+type ChoreoVideo = {
+  id: number;
+  name: string;
+  description: string;
+  videoThumbnail?: string;
+  videoFile?: string;
+};
+
 type PageLinks = {
   first?: string;
   next?: string;

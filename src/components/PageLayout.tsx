@@ -19,6 +19,10 @@ const items = [
     text: "Drops",
     href: "/drops",
   },
+  {
+    text: "Choreography",
+    href: "/choreo",
+  },
 ];
 
 interface Props {
