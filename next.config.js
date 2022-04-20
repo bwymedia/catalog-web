@@ -23,6 +23,16 @@ module.exports = {
         ],
         destination: "/_domains/digitalbackdrops/:path*",
       },
+      {
+        source: "/:path*",
+        has: [
+          {
+            type: "host",
+            value: process.env.SHOWS_DOMAIN,
+          },
+        ],
+        destination: "/_domains/shows/:path*",
+      },
     ];
   },
 };

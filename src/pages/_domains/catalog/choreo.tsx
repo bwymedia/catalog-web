@@ -3,6 +3,7 @@ import { Layout, Menu, Divider, Typography } from "antd";
 import { useState } from "react";
 import fetcher from "../../../api/fetcher";
 import PageLayout from "../../../components/PageLayout";
+import ChoreoGuidePreviewer from "../../../components/ChoreoGuidePreviewer";
 
 const { Content, Sider } = Layout;
 const { Title } = Typography;
@@ -52,19 +53,7 @@ export default function Choreo({ choreoGuides }: Props) {
             <Typography>
               <Title>{selectedGuide.showTitle}</Title>
               <Divider />
-              {selectedGuide.songs.map((song) => (
-                <>
-                  <Title level={2}>{song.name}</Title>
-                  {song.previewVideo && (
-                    <video
-                      src={song.previewVideo}
-                      height="360"
-                      controls
-                      preload="metadata"
-                    ></video>
-                  )}
-                </>
-              ))}
+              <ChoreoGuidePreviewer guide={selectedGuide} level={2} />
             </Typography>
           )}
         </Content>
