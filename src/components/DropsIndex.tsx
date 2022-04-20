@@ -1,34 +1,19 @@
+import * as React from "react";
 import { AppstoreOutlined } from "@ant-design/icons";
 import { Layout, Menu, Pagination, Row, Space } from "antd";
 import { useState } from "react";
-import fetcher from "../api/fetcher";
 import useApi from "../api/useApi";
-import DropCard from "../components/DropCard";
-import DropSearchForm from "../components/DropSearchForm";
+import DropCard from "./DropCard";
+import DropSearchForm from "./DropSearchForm";
 
 const { Content, Sider } = Layout;
-
-export async function getStaticProps() {
-  const { data: shows } = (await fetcher({
-    path: "shows",
-    params: { sort: "title" },
-  })) as ApiDocument<Show[]>;
-  const { data: tags } = (await fetcher({
-    path: "tags",
-    params: { sort: "name" },
-  })) as ApiDocument<Tag[]>;
-  return {
-    props: { shows, tags },
-    revalidate: 60,
-  };
-}
 
 interface Props {
   shows: Show[];
   tags: Tag[];
 }
 
-export default function Page({ shows, tags }: Props) {
+export default function DropsIndex({ shows, tags }: Props) {
   const [pageNumber, setPageNumber] = useState(1);
   const [filter, setFilter] = useState("");
   const [location, setLocation] = useState("");
