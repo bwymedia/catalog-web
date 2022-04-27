@@ -5,7 +5,10 @@ import PageLayout from "../../../components/PageLayout";
 export async function getStaticProps() {
   const { data: shows } = (await fetcher({
     path: "shows",
-    params: { sort: "title" },
+    params: {
+      sort: "title",
+      "filter[with_drops]": "1",
+    },
   })) as ApiDocument<Show[]>;
   const { data: tags } = (await fetcher({
     path: "tags",
