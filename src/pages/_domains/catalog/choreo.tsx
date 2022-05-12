@@ -15,6 +15,9 @@ interface Props {
 export async function getStaticProps() {
   const { data: choreoGuides } = (await fetcher({
     path: "choreo-guides",
+    params: {
+      include: "show",
+    },
   })) as ApiDocument<ChoreoGuide[]>;
   return {
     props: { choreoGuides },
@@ -25,7 +28,7 @@ export async function getStaticProps() {
 export default function Choreo({ choreoGuides }: Props) {
   const [selectedGuide, setSelectedGuide] = useState<ChoreoGuide>();
   const shows = choreoGuides.map((guide) => ({
-    title: guide.showTitle,
+    title: guide.show.title,
     slug: guide.slug,
   }));
 
@@ -51,7 +54,7 @@ export default function Choreo({ choreoGuides }: Props) {
         <Content style={{ padding: "24px", height: "100%", overflow: "auto" }}>
           {selectedGuide && (
             <Typography>
-              <Title>{selectedGuide.showTitle}</Title>
+              <Title>{selectedGuide.show.title}</Title>
               <Divider />
               <ChoreoGuidePreviewer guide={selectedGuide} level={2} />
             </Typography>

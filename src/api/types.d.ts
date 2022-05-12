@@ -35,7 +35,6 @@ type Scene = ApiResource & {
 
 type ChoreoGuide = ApiResource & {
   slug: string;
-  showTitle: string;
   choreographer?: string;
   producer?: string;
   otherCredits?: string;
@@ -43,6 +42,7 @@ type ChoreoGuide = ApiResource & {
   marketingImage?: string;
   songs: ChoreoSong[];
   hasAccess: boolean;
+  show?: Show;
 };
 
 type ChoreoSong = {
