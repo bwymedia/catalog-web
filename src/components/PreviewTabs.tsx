@@ -16,7 +16,7 @@ export default function PreviewTabs({ scenes, curtainWarmer }: Props) {
       </p>
       <Tabs tabPosition='left' tabBarStyle={{ width: "350px" }}>
         {curtainWarmer && (
-          <TabPane tab='Curtain Warmer' styles={{ display: "flex" }}>
+          <TabPane tab='Curtain Warmer'>
             <video
               className='shows-preview-video'
               src={curtainWarmer}

@@ -36,6 +36,7 @@ interface Props {
   meta?: {
     title?: string;
   };
+  cart?: boolean;
 }
 
 export default function PageLayout({
@@ -49,16 +50,17 @@ export default function PageLayout({
     ...pageMeta,
   };
 
-  const cart = useSelector((state) => state.cart);
-  const dispatch = useDispatch();
-  const storeCount = cart.reduce((acc, item) => acc + item.quantity, 0);
-  const { ref, isComponentVisible, setIsComponentVisible } =
-    useComponentVisible(false);
+  // const cart = useSelector((state) => state.cart);
 
-  const handleMenuClick = (e) => {
-    message.info("Click on menu item.");
-    console.log("click", e);
-  };
+  const dispatch = useDispatch();
+  // const storeCount = cart.reduce((acc, item) => acc + item.quantity, 0);
+  // const { ref, isComponentVisible, setIsComponentVisible } =
+  //   useComponentVisible(false);
+
+  // const handleMenuClick = (e) => {
+  //   message.info("Click on menu item.");
+  //   console.log("click", e);
+  // };
 
   return (
     <>
@@ -84,10 +86,8 @@ export default function PageLayout({
               md={4}
               lg={2}
               style={{
-                height: "100%",
                 display: "flex",
                 justifyContent: "flex-start",
-                height: "auto",
               }}>
               <Image
                 src={whiteLogoSrc}
@@ -101,10 +101,8 @@ export default function PageLayout({
               md={4}
               lg={2}
               style={{
-                height: "100%",
                 display: "flex",
                 justifyContent: "flex-start",
-                height: "auto",
               }}>
               <Link href='/'>
                 <Image

@@ -1,14 +1,32 @@
 import { Drawer, Menu } from "antd";
 import { AppstoreOutlined } from "@ant-design/icons";
 
-const MobileNavBar = ({ visible, setVisible, showId, setShowId, shows }) => {
+interface Props {
+  visible: boolean;
+  setVisible: Function;
+  showId: string;
+  setShowId: Function;
+  shows: Show[];
+}
+
+const MobileNavBar = ({
+  visible,
+  setVisible,
+  showId,
+  setShowId,
+  shows,
+}: Props) => {
+  const onClose = () => {
+    setVisible(false);
+  };
+
   return (
     <nav className='navbar'>
       <Drawer
         className='mobile-menu'
         title='Shows'
         placement='left'
-        onClick={() => setVisible(false)}
+        // onClick={() => setVisible(false)}
         onClose={() => setVisible(false)}
         visible={visible}>
         {showId && (

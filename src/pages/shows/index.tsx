@@ -42,6 +42,10 @@ export default function Page() {
 
   let shows = showsData && showsData.data ? showsData.data : [];
 
+  const onClose = () => {
+    setVisible(false);
+  };
+
   return (
     <PageLayout showLinks>
       <nav className='navbar d-lg-none'>
@@ -49,7 +53,7 @@ export default function Page() {
           className='mobile-menu'
           title='Shows'
           placement='left'
-          onClick={() => setVisible(false)}
+          // onClick={() => setVisible(false)}
           onClose={() => setVisible(false)}
           visible={visible}>
           <Menu

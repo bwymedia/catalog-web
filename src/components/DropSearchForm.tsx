@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import { useState } from "react";
 import { Button, Form, Input, Select, Space, Row, Col } from "antd";
 
 const { Option } = Select;
@@ -8,12 +8,12 @@ interface FormData {
   tagId: string;
   location: string;
   timeOfDay: string;
-  children: React.ReactNode;
 }
 
 interface Props {
   tags: Tag[];
   onSubmit: (values: FormData) => void;
+  children: React.ReactNode;
 }
 
 export default function DropSearchForm({ tags, onSubmit, children }: Props) {
@@ -22,17 +22,30 @@ export default function DropSearchForm({ tags, onSubmit, children }: Props) {
   const [showAdvancedSearch, setShowAdvancedSearch] = useState(false);
 
   return (
-     <Form layout="inline" onFinish={onSubmit} autoComplete="off" form={form} style={{width: "100%", display: "inline-grid"}}>
+    <Form
+      layout='inline'
+      onFinish={onSubmit}
+      autoComplete='off'
+      form={form}
+      style={{ width: "100%", display: "inline-grid" }}>
       {children}
-      <Space style={{display: "inline-grid", gripGap: "12px"}} >
-        <Row gutter={[12, 12]} style={{marginTop: "16px", marginBottom: "16px", marginLeft: 0, marginRight: 0, width: "100%"}}>
+      <Space style={{ display: "inline-grid" }}>
+        <Row
+          gutter={[12, 12]}
+          style={{
+            marginTop: "16px",
+            marginBottom: "16px",
+            marginLeft: 0,
+            marginRight: 0,
+            width: "100%",
+          }}>
           <Col xs={12} xl={6} xxl={6}>
-            <Form.Item label="Name" name="name">
-              <Input allowClear style={{width: "100%"}}/>
+            <Form.Item label='Name' name='name'>
+              <Input allowClear style={{ width: "100%" }} />
             </Form.Item>
           </Col>
           <Col xs={12} xl={4} xxl={6}>
-            <Form.Item label="Tag" name="tagId">
+            <Form.Item label='Tag' name='tagId'>
               <Select allowClear style={{ width: "100%" }}>
                 {tags.map((tag) => (
                   <Option key={tag.id} value={tag.id}>
@@ -43,34 +56,41 @@ export default function DropSearchForm({ tags, onSubmit, children }: Props) {
             </Form.Item>
           </Col>
           <Col xs={12} xl={5} xxl={4}>
-            <Form.Item label="Location" name="location">
+            <Form.Item label='Location' name='location'>
               <Select allowClear style={{ width: "100%" }}>
-                <Option value="Interior">Interior</Option>
-                <Option value="Exterior">Exterior</Option>
+                <Option value='Interior'>Interior</Option>
+                <Option value='Exterior'>Exterior</Option>
               </Select>
             </Form.Item>
           </Col>
           <Col xs={12} xl={5} xxl={4}>
-            <Form.Item label="Time of Day" name="timeOfDay">
+            <Form.Item label='Time of Day' name='timeOfDay'>
               <Select allowClear style={{ width: "100%" }}>
-                <Option value="Sunrise">Sunrise</Option>
-                <Option value="Morning">Morning</Option>
-                <Option value="Day">Day</Option>
-                <Option value="Sunset">Sunset</Option>
-                <Option value="Night">Night</Option>
+                <Option value='Sunrise'>Sunrise</Option>
+                <Option value='Morning'>Morning</Option>
+                <Option value='Day'>Day</Option>
+                <Option value='Sunset'>Sunset</Option>
+                <Option value='Night'>Night</Option>
               </Select>
             </Form.Item>
           </Col>
           <Col xs={8} md={3} xl={2}>
             <Form.Item>
-              <Button type="primary" htmlType="submit" style={{width: "100%"}}>
+              <Button
+                type='primary'
+                htmlType='submit'
+                style={{ width: "100%" }}>
                 Filter
               </Button>
             </Form.Item>
           </Col>
           <Col xs={8} md={3} xl={2}>
             <Form.Item>
-              <Button style={{width: "100%"}} onClick={() => form.resetFields()}>Clear</Button>
+              <Button
+                style={{ width: "100%" }}
+                onClick={() => form.resetFields()}>
+                Clear
+              </Button>
             </Form.Item>
           </Col>
         </Row>

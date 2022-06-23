@@ -35,6 +35,10 @@ export default function Choreo({ choreoGuides }: Props) {
     slug: guide.slug,
   }));
 
+  const onClose = () => {
+    setVisible(false);
+  };
+
   return (
     <PageLayout showLinks>
       <Layout>
@@ -43,7 +47,7 @@ export default function Choreo({ choreoGuides }: Props) {
             className='mobile-menu'
             title='Choreo'
             placement='left'
-            onClick={() => setVisible(false)}
+            // onClick={() => setVisible(false)}
             onClose={() => setVisible(false)}
             visible={visible}>
             <Menu
