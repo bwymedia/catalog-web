@@ -8,10 +8,11 @@ export default function ScenePreviewer({ scene }: Props) {
       {scene.links.previewVideo && (
         <video
           src={scene.links.previewVideo}
-          height="360"
+          className='preview-video'
+          height='360'
           controls
-          preload="metadata"
-        ></video>
+          style={{ width: "100%" }}
+          preload='metadata'></video>
       )}
     </>
   );

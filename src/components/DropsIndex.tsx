@@ -1,10 +1,24 @@
 import * as React from "react";
-import { AppstoreOutlined } from "@ant-design/icons";
-import { Layout, Menu, Pagination, Row, Space } from "antd";
+import {
+  Layout,
+  Menu,
+  Pagination,
+  Row,
+  Col,
+  Space,
+  Drawer,
+  Button,
+} from "antd";
 import { useState } from "react";
 import useApi from "../api/useApi";
 import DropCard from "./DropCard";
 import DropSearchForm from "./DropSearchForm";
+import MobileNavBar from "./MobileNavBar";
+import { MenuFoldOutlined } from "@ant-design/icons";
+import Image from "next/image";
+import { AppstoreOutlined } from "@ant-design/icons";
+
+import whiteLogoSrc from "../assets/white_logo.png";
 
 const { Content, Sider } = Layout;
 
@@ -44,18 +58,31 @@ export default function DropsIndex({ shows, tags }: Props) {
     drops = dropsData.data;
   }
 
+  const [visible, setVisible] = useState(false);
+
   return (
     <Layout>
-      <Sider width={200}>
+      <MobileNavBar
+        visible={visible}
+        setVisible={setVisible}
+        showId={showId}
+        setShowId={setShowId}
+        shows={shows}
+      />
+      <Sider
+        className='sidebar lg+'
+        breakpoint={"lg"}
+        theme='light'
+        collapsedWidth={0}
+        trigger={null}>
         <Menu
-          mode="inline"
+          mode='inline'
           selectedKeys={[showId]}
           onSelect={({ key }) => {
             setShowId(key);
           }}
-          style={{ height: "100%", overflow: "auto" }}
-        >
-          <Menu.Item key="-1" icon={<AppstoreOutlined />}>
+          style={{ height: "100%", overflow: "auto" }}>
+          <Menu.Item key='-1' icon={<AppstoreOutlined />}>
             All
           </Menu.Item>
           {shows.map((show) => (
@@ -63,8 +90,8 @@ export default function DropsIndex({ shows, tags }: Props) {
           ))}
         </Menu>
       </Sider>
-      <Content style={{ padding: "24px", height: "100%", overflow: "auto" }}>
-        <Space size="middle" direction="vertical" style={{ width: "100%" }}>
+      <Content style={{ padding: "0 12px", height: "100%", overflow: "auto" }}>
+        <Space size='middle' direction='vertical' style={{ width: "100%" }}>
           <DropSearchForm
             tags={tags}
             onSubmit={({ name, tagId, location, timeOfDay }) => {
@@ -72,18 +99,44 @@ export default function DropsIndex({ shows, tags }: Props) {
               setTagId(tagId);
               setLocation(location);
               setTimeOfDay(timeOfDay);
-            }}
-          />
+            }}>
+            <div
+              className='d-block d-lg-none'
+              style={{ height: "100%", marginTop: "12px" }}>
+              <Button
+                id='mobile-menu-button'
+                className='menu'
+                type='primary'
+                icon={<MenuFoldOutlined style={{ fontSize: "1.5rem" }} />}
+                onClick={() => setVisible(true)}
+                style={{
+                  fontSize: "1.5rem",
+                  margin: "0",
+                  float: "left",
+                  marginTop: "3px",
+                  marginBottom: "auto",
+                }}
+              />
+              <h1
+                style={{
+                  textAlign: "center",
+                  fontSize: "1.5rem",
+                  marginBottom: 0,
+                }}>
+                <span style={{ marginLeft: "-32px" }}>Drops</span>
+              </h1>
+            </div>
+          </DropSearchForm>
           {drops && (
             <>
-              <Row justify="center">
-                <Space size="large" wrap align="start">
-                  {drops.map((drop) => (
-                    <DropCard key={drop.id} drop={drop} />
-                  ))}
-                </Space>
+              <Row gutter={[16, 16]}>
+                {drops.map((drop) => (
+                  <Col key={drop.id} xs={24} md={12} lg={8} xl={6} xxl={4}>
+                    <DropCard drop={drop} />
+                  </Col>
+                ))}
               </Row>
-              <Row justify="center">
+              <Row justify='center'>
                 <Pagination
                   pageSize={25}
                   current={pageNumber}

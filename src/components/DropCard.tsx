@@ -1,5 +1,7 @@
 import { Button, Card, Checkbox, Tag, Typography } from "antd";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useContext } from "react";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../../redux/cart.slice";
 
 const { Title } = Typography;
 
@@ -8,9 +10,11 @@ interface Props {
 }
 
 export default function DropCard({ drop }: Props) {
+  const dispatch = useDispatch();
   const videoRef = useRef<HTMLVideoElement>(null);
   const [playing, setPlaying] = useState(false);
   const [tryingPlay, setTryingPlay] = useState(false);
+  const [isAdded, setIsAdded] = useState(false);
 
   const animate = () => {
     if (!videoRef.current || playing || tryingPlay) return;
@@ -32,6 +36,14 @@ export default function DropCard({ drop }: Props) {
     setPlaying(false);
   };
 
+  const handleAddToCart = () => {
+    dispatch(addToCart(drop));
+    setIsAdded(true);
+    setTimeout(() => {
+      setIsAdded(false);
+    }, 3500);
+  };
+
   return (
     <Card
       hoverable
@@ -44,15 +56,21 @@ export default function DropCard({ drop }: Props) {
             src={drop.previewVideo}
             muted
             loop
-            width="320"
+            width='320'
           />
         )
-      }
-      style={{ width: "320px" }}
-    >
+      }>
       <Title level={5} style={{ margin: 0 }}>
-        {drop.name} <Tag color="cyan">#{drop.id}</Tag>
+        {drop.name} <Tag color='cyan'>#{drop.id}</Tag>
       </Title>
+      {/* <Button 
+        type="primary" 
+        className={!isAdded ? "" : "added"}
+        style={{ marginTop: "16px", minWidth: "125px", transition: "all .3s ease-in" }}
+        onClick={handleAddToCart}
+      >
+       {!isAdded ? "ADD TO CART" : "✔ ADDED"}
+      </Button> */}
     </Card>
   );
 }
