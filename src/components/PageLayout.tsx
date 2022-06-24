@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useSelector, useDispatch } from "react-redux";
 import { Layout, Row, Col, Menu, Dropdown, Button, Space } from "antd";
 import { ShoppingCartOutlined } from "@ant-design/icons";
+import { RootState } from "../../redux/store";
 
 import catalogLogoSrc from "../assets/catalog_logo.webp";
 import whiteLogoSrc from "../assets/white_logo.png";
@@ -42,17 +43,12 @@ export default function PageLayout({
     ...pageMeta,
   };
 
-  // const cart = useSelector((state) => state.cart);
+  const cart = useSelector((state: RootState) => state.cart);
 
   const dispatch = useDispatch();
-  // const storeCount = cart.reduce((acc, item) => acc + item.quantity, 0);
-  // const { ref, isComponentVisible, setIsComponentVisible } =
-  //   useComponentVisible(false);
-
-  // const handleMenuClick = (e) => {
-  //   message.info("Click on menu item.");
-  //   console.log("click", e);
-  // };
+  const storeCount = cart.reduce((acc, item) => acc + item.quantity, 0);
+  const { ref, isComponentVisible, setIsComponentVisible } =
+    useComponentVisible(false);
 
   return (
     <>
@@ -121,20 +117,40 @@ export default function PageLayout({
                 ))}
               </Menu>
             </Col>
-            {/* <Col xs={6} md={4} lg={2} style={{ height: "100%", display: "flex", justifyContent: "flex-end", height: "auto" }}>
+            <Col
+              xs={6}
+              md={4}
+              lg={2}
+              style={{
+                height: "100%",
+                display: "flex",
+                justifyContent: "flex-end",
+              }}>
               <div ref={ref}>
                 <Button
-                  className="menu"
-                  icon={<ShoppingCartOutlined style={{fontSize: "2rem"}}/>}
+                  className='menu'
+                  icon={<ShoppingCartOutlined style={{ fontSize: "2rem" }} />}
                   onClick={() => setIsComponentVisible(!isComponentVisible)}
-                  style={{position: "relative", background: "transparent", color: "white", border: "none", height: "100%" }}>
-                    <span style={{position: "absolute", margin: "0", fontSize: "1.25rem", height: "40px"}}>
-                    {cart.length === 0 ? '' : storeCount}
-                    </span>
+                  style={{
+                    position: "relative",
+                    background: "transparent",
+                    color: "white",
+                    border: "none",
+                    height: "100%",
+                  }}>
+                  <span
+                    style={{
+                      position: "absolute",
+                      margin: "0",
+                      fontSize: "1.25rem",
+                      height: "40px",
+                    }}>
+                    {cart.length === 0 ? "" : storeCount}
+                  </span>
                 </Button>
                 {isComponentVisible && <CartSummary cart={cart} />}
-                </div>
-            </Col> */}
+              </div>
+            </Col>
           </Row>
         </Header>
         {children}

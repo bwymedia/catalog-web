@@ -63,14 +63,17 @@ export default function DropCard({ drop }: Props) {
       <Title level={5} style={{ margin: 0 }}>
         {drop.name} <Tag color='cyan'>#{drop.id}</Tag>
       </Title>
-      {/* <Button 
-        type="primary" 
+      <Button
+        type='primary'
         className={!isAdded ? "" : "added"}
-        style={{ marginTop: "16px", minWidth: "125px", transition: "all .3s ease-in" }}
-        onClick={handleAddToCart}
-      >
-       {!isAdded ? "ADD TO CART" : "✔ ADDED"}
-      </Button> */}
+        style={{
+          marginTop: "16px",
+          minWidth: "125px",
+          transition: "all .3s ease-in",
+        }}
+        onClick={handleAddToCart}>
+        {!isAdded ? "ADD TO CART" : "✔ ADDED"}
+      </Button>
     </Card>
   );
 }
