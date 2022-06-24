@@ -17,12 +17,6 @@ a {
 
 @import "~antd/dist/antd.css";
 
-.ant-tabs-tab {
-  white-space: normal;
-  word-break: break-word;
-  text-align: left !important;
-}
-
 .d-none {
   display: none;
 }
@@ -53,13 +47,6 @@ a {
   border: orange;
 }
 
-.ant-btn.ant-btn-ghost,
-.ant-btn.ant-btn-ghost.ant-btn-icon-only.ant-dropdown-trigger {
-  border: none;
-  padding: 0;
-  height: 40px;
-}
-
 .anticon.anticon-ellipsis {
   color: #1890ff;
 }
@@ -68,10 +55,6 @@ a {
   pointer-events: none;
   cursor: default;
   opacity: 0.5;
-}
-
-.preview-video {
-  height: 100%;
 }
 
 /* FORM STYLING */
@@ -90,16 +73,6 @@ form.ant-form-inline .ant-row {
     padding-bottom: 0.5rem;
     background: #f0f2f5;
   }
-
-  .ant-tabs-left
-    > .ant-tabs-content-holder
-    > .ant-tabs-content
-    > .ant-tabs-tabpane {
-    padding: 0 4px;
-  }
-  .ant-tabs-tab {
-    padding: 0 4px !important;
-  }
 }
 
 /* CUSTOM > TABLET SCREEN SIZE */
@@ -110,12 +83,9 @@ form.ant-form-inline .ant-row {
   form .ant-space-item {
     margin-top: 1rem;
   }
-  .ant-tabs-left > .ant-tabs-nav.ant-tabs-tab {
-    padding: 0;
-  }
 }
 
-/* ANTD - LG SCREEN SIZE(992px) */
+/* ANTD > LG SCREEN SIZE(992px) */
 @media (min-width: 992px) {
   .navbar .menu {
     display: none;
@@ -127,6 +97,8 @@ form.ant-form-inline .ant-row {
     display: block;
   }
 }
+
+/* ANTD < LG SCREEN SIZE(992px) */
 @media screen and (max-width: 992px) {
   .column {
     flex: 100% !important; /* !important so that it overrides the inline style because by default it has higher priority */
@@ -147,16 +119,6 @@ form.ant-form-inline .ant-row {
     /* padding-right: 16px !important; */
     padding-left: 0 !important;
   }
-  .ant-tabs-nav-list .ant-tabs-tab {
-    font-size: 80%;
-  }
-  .ant-tabs-nav {
-    max-width: 35%;
-  }
-  .ant-tabs-tab {
-    padding-left: 4px !important;
-    padding-right: 4px !important;
-  }
 }
 @media (min-width: 1025px) and (max-width: 1279px) {
   form.ant-form-inline .ant-row .ant-col:nth-child(4) {
@@ -164,7 +126,7 @@ form.ant-form-inline .ant-row {
   }
 }
 
-/* ANTD - XL SCREEN SIZE(1200px) */
+/* ANTD > XL SCREEN SIZE(1200px) */
 @media (min-width: 1200px) {
   form.ant-form-inline .ant-row .ant-col:last-child {
     padding-right: 0 !important;
@@ -174,7 +136,7 @@ form.ant-form-inline .ant-row {
   }
 }
 
-/* ANTD - XXL SCREEN SIZE(1600px) */
+/* ANTD > XXL SCREEN SIZE(1600px) */
 @media (min-width: 1600px) {
   form.ant-form-inline .ant-row .ant-col {
     padding: 0 12px !important;

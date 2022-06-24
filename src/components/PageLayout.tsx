@@ -20,14 +20,6 @@ const items = [
     label: "Drops",
     href: "/",
   },
-  {
-    label: "Shows",
-    href: "/shows",
-  },
-  {
-    label: "Choreography",
-    href: "/choreo",
-  },
 ];
 
 interface Props {

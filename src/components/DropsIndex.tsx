@@ -126,9 +126,7 @@ export default function DropsIndex({ shows, tags }: Props) {
                   textAlign: "center",
                   fontSize: "1.5rem",
                   marginBottom: 0,
-                }}>
-                <span style={{ marginLeft: "-32px" }}>Drops</span>
-              </h1>
+                }}></h1>
             </div>
           </DropSearchForm>
           {drops && (
