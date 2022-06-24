@@ -11,6 +11,7 @@ const { Title } = Typography;
 
 interface Props {
   choreoGuides: ChoreoGuide[];
+  onClick?: () => void;
 }
 
 export async function getStaticProps() {
@@ -35,7 +36,7 @@ export default function Choreo({ choreoGuides }: Props) {
     slug: guide.slug,
   }));
 
-  const onClose = () => {
+  const onClick = () => {
     setVisible(false);
   };
 
@@ -47,12 +48,12 @@ export default function Choreo({ choreoGuides }: Props) {
             className='mobile-menu'
             title='Choreo'
             placement='left'
-            // onClick={() => setVisible(false)}
-            onClose={() => setVisible(false)}
+            onClose={onClick}
             visible={visible}>
             <Menu
               mode='inline'
               style={{ height: "100%", overflow: "auto" }}
+              onClick={onClick}
               onSelect={({ key }) => {
                 const guide = choreoGuides.find((guide) => guide.slug === key);
                 if (guide) {

@@ -16,7 +16,7 @@ const MobileNavBar = ({
   setShowId,
   shows,
 }: Props) => {
-  const onClose = () => {
+  const onClick = () => {
     setVisible(false);
   };
 
@@ -26,13 +26,13 @@ const MobileNavBar = ({
         className='mobile-menu'
         title='Shows'
         placement='left'
-        // onClick={() => setVisible(false)}
         onClose={() => setVisible(false)}
         visible={visible}>
         {showId && (
           <Menu
             mode='inline'
             selectedKeys={[showId]}
+            onClick={onClick}
             onSelect={({ key }) => {
               setShowId(key);
             }}

@@ -9,7 +9,15 @@ import { MenuFoldOutlined } from "@ant-design/icons";
 const { Content, Sider } = Layout;
 const { SubMenu } = Menu;
 
-export default function Page() {
+interface Props {
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
+}
+
+type ButtonProps = {
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
+};
+
+export default function Page(props: ButtonProps) {
   const [packageId, setPackageId] = useState("");
   const { data: showsData } = useApi<Show[]>({
     path: "shows",
@@ -42,7 +50,7 @@ export default function Page() {
 
   let shows = showsData && showsData.data ? showsData.data : [];
 
-  const onClose = () => {
+  const onClick = () => {
     setVisible(false);
   };
 
@@ -53,12 +61,12 @@ export default function Page() {
           className='mobile-menu'
           title='Shows'
           placement='left'
-          // onClick={() => setVisible(false)}
-          onClose={() => setVisible(false)}
+          onClose={onClick}
           visible={visible}>
           <Menu
             mode='inline'
             style={{ height: "100%", overflow: "auto" }}
+            onClick={onClick}
             onSelect={({ key }) => {
               const match = key.match(/package-(\d+)/);
               if (match) {

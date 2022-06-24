@@ -60,6 +60,10 @@ export default function DropsIndex({ shows, tags }: Props) {
 
   const [visible, setVisible] = useState(false);
 
+  const onClick = () => {
+    setVisible(false);
+  };
+
   return (
     <Layout>
       <MobileNavBar
