@@ -10,10 +10,12 @@ interface Props {
 
 export default function PreviewTabs({ scenes, curtainWarmer }: Props) {
   return (
-    <>
-      <p className='d-lg-none' style={{ textAlign: "center" }}>
-        Please use the menu to select a show
-      </p>
+    <div style={{ marginTop: "12px" }}>
+      {!curtainWarmer && (
+        <p className='d-lg-none' style={{ textAlign: "center" }}>
+          Please use the menu to select a show
+        </p>
+      )}
       <Tabs tabPosition='left' tabBarStyle={{ width: "350px" }}>
         {curtainWarmer && (
           <TabPane tab='Curtain Warmer'>
@@ -32,6 +34,6 @@ export default function PreviewTabs({ scenes, curtainWarmer }: Props) {
           </TabPane>
         ))}
       </Tabs>
-    </>
+    </div>
   );
 }

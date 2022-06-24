@@ -106,11 +106,13 @@ export default function Choreo({ choreoGuides }: Props) {
               <span style={{ marginLeft: "-32px" }}>Choreo</span>
             </h1>
           </div>
-          <p className='d-lg-none' style={{ textAlign: "center" }}>
-            Please use the menu to select a show
-          </p>
+          {!selectedGuide && (
+            <p className='d-lg-none' style={{ textAlign: "center" }}>
+              Please use the menu to select a show
+            </p>
+          )}
           {selectedGuide && (
-            <Typography>
+            <Typography style={{ marginTop: "12px" }}>
               <Title level={3}>{selectedGuide.show.title}</Title>
               <Divider />
               <ChoreoGuidePreviewer guide={selectedGuide} level={2} />
