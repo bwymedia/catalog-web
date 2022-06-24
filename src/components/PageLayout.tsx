@@ -111,7 +111,9 @@ export default function PageLayout({
                 selectedKeys={[router.asPath]}
                 mode='horizontal'>
                 {items.map((item) => (
-                  <Menu.Item key={item.href}>
+                  <Menu.Item
+                    key={item.href}
+                    style={{ backgroundColor: "#1890ff" }}>
                     <Link href={item.href}>
                       <a>{item.label}</a>
                     </Link>
