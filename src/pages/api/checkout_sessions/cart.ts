@@ -8,7 +8,7 @@ import { NextApiRequest, NextApiResponse } from "next";
  * The important thing is that the product info is loaded from somewhere trusted
  * so you know the pricing information is accurate.
  */
-import { validateCartItems } from "use-shopping-cart/utilities/serverless";
+import { validateCartItems } from "use-shopping-cart/utilities";
 import inventory from "../../../data/products";
 
 import Stripe from "stripe";

@@ -24,7 +24,7 @@ const ResultPage: NextPage = () => {
         <h1>Checkout Payment Result</h1>
         <h2>Status: {data?.payment_intent?.status ?? "loading..."}</h2>
         <h3>CheckoutSession response:</h3>
-        <div content={data ?? "loading..."} />
+        {/* <div content={data ?? "loading..."} /> */}
         {/* <Cart>
           <ClearCart />
         </Cart> */}

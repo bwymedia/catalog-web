@@ -4,7 +4,7 @@ import Image from "next/image";
 import { Row, Col, Tag, Button, Typography } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 
-import Checkout from "./checkout";
+import Checkout from "./Checkout";
 import useComponentVisible from "../hooks/useComponentVisible";
 import {
   incrementQuantity,
