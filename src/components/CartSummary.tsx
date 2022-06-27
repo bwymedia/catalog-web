@@ -4,6 +4,7 @@ import Image from "next/image";
 import { Row, Col, Tag, Button, Typography } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 
+import Checkout from "./checkout";
 import useComponentVisible from "../hooks/useComponentVisible";
 import {
   incrementQuantity,
@@ -159,12 +160,7 @@ const CartSummary = ({ cart }) => {
             width: "100%",
             height: "auto",
           }}>
-          <Button
-            type='primary'
-            className={cart.length === 0 ? `disabled` : ""}
-            style={{ width: "100%", textTransform: "uppercase" }}>
-            Proceed To Checkout
-          </Button>
+          <Checkout items={cart.length} />
         </Col>
       </Row>
     </div>

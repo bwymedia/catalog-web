@@ -19,8 +19,6 @@ interface Props {
 export default function DropSearchForm({ tags, onSubmit, children }: Props) {
   const [form] = Form.useForm<FormData>();
 
-  const [showAdvancedSearch, setShowAdvancedSearch] = useState(false);
-
   return (
     <Form
       layout='inline'
