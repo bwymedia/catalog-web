@@ -85,7 +85,7 @@ const CartSummary = ({ cart }) => {
                             <Tag color='cyan'>#{product.id}</Tag>
                           </p>
                           <p style={{ fontSize: "80%", marginBottom: "0" }}>
-                            $2.00
+                            $2.00 each
                           </p>
                           <Row
                             style={{
