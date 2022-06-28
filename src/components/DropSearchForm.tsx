@@ -39,12 +39,12 @@ export default function DropSearchForm({ tags, onSubmit, children }: Props) {
             marginRight: 0,
             width: "100%",
           }}>
-          <Col xs={12} xl={6} xxl={6}>
+          <Col xs={12} xl={6}>
             <Form.Item label='Name' name='name'>
               <Input allowClear style={{ width: "100%" }} />
             </Form.Item>
           </Col>
-          <Col xs={12} xl={4} xxl={6}>
+          <Col xs={12} xl={5} xxl={6}>
             <Form.Item label='Tag' name='tagId'>
               <Select allowClear style={{ width: "100%" }}>
                 {tags.map((tag) => (
@@ -74,17 +74,17 @@ export default function DropSearchForm({ tags, onSubmit, children }: Props) {
               </Select>
             </Form.Item>
           </Col>
-          <Col xs={8} md={3} xl={2}>
+          <Col xs={8} md={3} xl={3}>
             <Form.Item>
               <Button
                 type='primary'
                 htmlType='submit'
                 style={{ width: "100%" }}>
-                Filter
+                Search
               </Button>
             </Form.Item>
           </Col>
-          <Col xs={8} md={3} xl={2}>
+          {/* <Col xs={8} md={3} xl={2}>
             <Form.Item>
               <Button
                 style={{ width: "100%" }}
@@ -92,7 +92,7 @@ export default function DropSearchForm({ tags, onSubmit, children }: Props) {
                 Clear
               </Button>
             </Form.Item>
-          </Col>
+          </Col> */}
         </Row>
       </Space>
     </Form>
