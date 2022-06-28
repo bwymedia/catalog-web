@@ -8,7 +8,7 @@ export default async function handler(req, res) {
         line_items: [
           {
             // Provide the exact Price ID (for example, pr_1234) of the product you want to sell
-            price: `${process.env.SINGLE_PRICE_ID}`,
+            price: `${process.env.ULIMITED_PRICE_ID}`,
             quantity: 1,
           },
         ],

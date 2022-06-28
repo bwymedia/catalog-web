@@ -8,7 +8,6 @@ const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
 );
 export default function Checkout({ items }) {
-  console.log(items);
   React.useEffect(() => {
     // Check to see if this is a redirect back from Checkout
     const query = new URLSearchParams(window.location.search);
@@ -24,7 +23,11 @@ export default function Checkout({ items }) {
   }, []);
 
   return (
-    <form action='/api/checkout_sessions' method='POST'>
+    <form
+      action={`${
+        items >= 4 ? "/api/checkout_unlimited" : "/api/checkout_sessions"
+      }`}
+      method='POST'>
       <section>
         <button
           role='link'
