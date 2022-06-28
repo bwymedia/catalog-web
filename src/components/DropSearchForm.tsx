@@ -44,7 +44,7 @@ export default function DropSearchForm({ tags, onSubmit, children }: Props) {
               <Input allowClear style={{ width: "100%" }} />
             </Form.Item>
           </Col>
-          <Col xs={12} xl={5} xxl={6}>
+          <Col xs={12} xl={5}>
             <Form.Item label='Tag' name='tagId'>
               <Select allowClear style={{ width: "100%" }}>
                 {tags.map((tag) => (
@@ -55,7 +55,7 @@ export default function DropSearchForm({ tags, onSubmit, children }: Props) {
               </Select>
             </Form.Item>
           </Col>
-          <Col xs={12} xl={5} xxl={4}>
+          <Col xs={12} xl={5}>
             <Form.Item label='Location' name='location'>
               <Select allowClear style={{ width: "100%" }}>
                 <Option value='Interior'>Interior</Option>
@@ -63,7 +63,7 @@ export default function DropSearchForm({ tags, onSubmit, children }: Props) {
               </Select>
             </Form.Item>
           </Col>
-          <Col xs={12} xl={5} xxl={4}>
+          <Col xs={12} xl={5}>
             <Form.Item label='Time of Day' name='timeOfDay'>
               <Select allowClear style={{ width: "100%" }}>
                 <Option value='Sunrise'>Sunrise</Option>
@@ -74,7 +74,7 @@ export default function DropSearchForm({ tags, onSubmit, children }: Props) {
               </Select>
             </Form.Item>
           </Col>
-          <Col xs={8} md={3} xl={3}>
+          <Col xs={8} md={3}>
             <Form.Item>
               <Button
                 type='primary'
