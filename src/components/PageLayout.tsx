@@ -21,6 +21,14 @@ const items = [
     label: "Drops",
     href: "/",
   },
+  {
+    label: "Shows",
+    href: "/shows",
+  },
+  {
+    label: "Choreography",
+    href: "/choreo",
+  },
 ];
 
 interface Props {
@@ -107,9 +115,7 @@ export default function PageLayout({
                 selectedKeys={[router.asPath]}
                 mode='horizontal'>
                 {items.map((item) => (
-                  <Menu.Item
-                    key={item.href}
-                    style={{ backgroundColor: "#1890ff" }}>
+                  <Menu.Item key={item.href}>
                     <Link href={item.href}>
                       <a>{item.label}</a>
                     </Link>
