@@ -4,7 +4,7 @@ import Image from "next/image";
 import { Row, Col, Tag, Button, Typography } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 
-import Checkout from "../../pages/Checkout";
+import Checkout from "../../components/Checkout";
 import useComponentVisible from "../../hooks/useComponentVisible";
 import {
   incrementQuantity,
@@ -21,9 +21,6 @@ const CartSummary = ({ cart }) => {
 
   return (
     <div className={styles.active}>
-      {/* <code>
-        <pre>{JSON.stringify(cart, null, 2)}</pre>
-      </code> */}
       <Row style={{ lineHeight: "25px" }}>
         <Col
           span={24}
@@ -163,7 +160,7 @@ const CartSummary = ({ cart }) => {
             width: "100%",
             height: "auto",
           }}>
-          <Checkout />
+          <Checkout cart={cart} />
         </Col>
       </Row>
     </div>

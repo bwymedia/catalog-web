@@ -9,19 +9,20 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { quantity } = req.body;
+  const { quantity, name, cart } = req.body;
+
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ["card"],
     mode: "payment",
     line_items: [
       {
+        name,
         price: `${process.env.SINGLE_PRICE_ID}`,
         quantity,
       },
     ],
     success_url: `${req.headers.origin}/success?session_id={CHECKOUT_SESSION_ID}`,
-    cancel_url: `${req.headers.origin}/cancel`,
+    cancel_url: `${req.headers.origin}`,
   });
-  console.log(session.id);
   res.status(200).json({ sessionId: session.id });
 }

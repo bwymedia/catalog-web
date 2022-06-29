@@ -1,3 +1,4 @@
+import { useSelector } from "react-redux";
 import { NextPage } from "next";
 import { loadStripe } from "@stripe/stripe-js";
 
@@ -6,6 +7,13 @@ const stripePromise = loadStripe(
 );
 
 export default function Checkout() {
+  const cart = useSelector((state) => state.cart);
+  const totalQuantity = cart.reduce((acc, curr) => acc + curr.quantity, 0);
+
+  const itemNames = cart.map((item) => item.name);
+  itemNames.join();
+  console.log(itemNames);
+
   const handleClick = async (event) => {
     const { sessionId } = await fetch("./api/checkout_session", {
       method: "POST",
@@ -13,7 +21,11 @@ export default function Checkout() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        quantity: 1,
+        items: Object.entries(cart).map(([_, { id, quantity }]) => ({
+          price: id,
+          name: name,
+        })),
+        quantity: totalQuantity,
       }),
     }).then((res) => res.json());
     const stripe = await stripePromise;
@@ -27,11 +39,21 @@ export default function Checkout() {
   return (
     <div>
       <button
+        type='primary'
+        style={{
+          width: "100%",
+          color: "#fff",
+          borderColor: "#1890ff",
+          background: "#1890ff",
+          textShadow: "0 -1px 0 rgb(0 0 0 / 12%)",
+          boxShadow: "0 2px 0 rgb(0 0 0 / 5%)",
+          textTransform: "uppercase",
+        }}
         role='link'
         onClick={() => {
           handleClick(event);
         }}>
-        Checkout
+        Proceed to Checkout
       </button>
     </div>
   );
