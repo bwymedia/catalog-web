@@ -2,7 +2,7 @@ import { NextPage } from "next";
 import { loadStripe } from "@stripe/stripe-js";
 
 const stripePromise = loadStripe(
-  `${process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY}`
+  `${process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY}`
 );
 
 export default function Checkout() {
