@@ -5,11 +5,21 @@ const stripe = new Stripe(`${process.env.STRIPE_SECRET_KEY}`, {
   apiVersion: "2020-08-27",
 });
 
+type Quantity = 1 | 2 | 3 | 4 | 5;
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   const { quantity, name, cart } = req.body;
+
+  let productQuantity = quantity;
+
+  if (quantity > 4) {
+    productQuantity = 1;
+  } else {
+    productQuantity = quantity;
+  }
 
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ["card"],
@@ -17,8 +27,12 @@ export default async function handler(
     line_items: [
       {
         name,
-        price: `${process.env.SINGLE_PRICE_ID}`,
-        quantity,
+        price: `${
+          quantity > 4
+            ? process.env.ULIMITED_PRICE_ID
+            : process.env.SINGLE_PRICE_ID
+        }`,
+        quantity: productQuantity,
       },
     ],
     success_url: `${req.headers.origin}/success?session_id={CHECKOUT_SESSION_ID}`,

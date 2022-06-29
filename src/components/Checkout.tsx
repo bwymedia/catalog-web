@@ -21,10 +21,6 @@ export default function Checkout() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        items: Object.entries(cart).map(([_, { id, quantity }]) => ({
-          price: id,
-          name: name,
-        })),
         quantity: totalQuantity,
       }),
     }).then((res) => res.json());
