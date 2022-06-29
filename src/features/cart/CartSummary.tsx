@@ -160,7 +160,7 @@ const CartSummary = ({ cart }) => {
             width: "100%",
             height: "auto",
           }}>
-          <Checkout cart={cart} />
+          <Checkout />
         </Col>
       </Row>
     </div>

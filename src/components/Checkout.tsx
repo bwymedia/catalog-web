@@ -1,4 +1,4 @@
-import { useSelector } from "react-redux";
+import { useAppSelector } from "../hooks/hooks";
 import { NextPage } from "next";
 import { loadStripe } from "@stripe/stripe-js";
 
@@ -7,7 +7,7 @@ const stripePromise = loadStripe(
 );
 
 export default function Checkout() {
-  const cart = useSelector((state) => state.cart);
+  const cart = useAppSelector((state) => state.cart);
   const totalQuantity = cart.reduce((acc, curr) => acc + curr.quantity, 0);
 
   const itemNames = cart.map((item) => item.name);
@@ -39,7 +39,6 @@ export default function Checkout() {
   return (
     <div>
       <button
-        type='primary'
         style={{
           width: "100%",
           color: "#fff",
