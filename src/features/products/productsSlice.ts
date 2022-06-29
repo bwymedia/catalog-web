@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import type { Product } from "../../types/product";
+// import type { Product } from "../../types/product";
 
 export interface ProductsState {
-  products: { [id: string]: Product };
+  products: {};
 }
 
 const initialState: ProductsState = {

@@ -4,14 +4,14 @@ import Image from "next/image";
 import { Row, Col, Tag, Button, Typography } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 
-import Checkout from "./Checkout";
-import useComponentVisible from "../hooks/useComponentVisible";
+import Checkout from "../../pages/Checkout";
+import useComponentVisible from "../../hooks/useComponentVisible";
 import {
   incrementQuantity,
   decrementQuantity,
   removeFromCart,
-} from "../../redux/cart.slice";
-import styles from "../styles/CartSummary.module.css";
+} from "./cartSlice";
+import styles from "./CartSummary.module.css";
 
 const { Title } = Typography;
 
@@ -21,9 +21,9 @@ const CartSummary = ({ cart }) => {
 
   return (
     <div className={styles.active}>
-      <code>
+      {/* <code>
         <pre>{JSON.stringify(cart, null, 2)}</pre>
-      </code>
+      </code> */}
       <Row style={{ lineHeight: "25px" }}>
         <Col
           span={24}
@@ -163,7 +163,7 @@ const CartSummary = ({ cart }) => {
             width: "100%",
             height: "auto",
           }}>
-          <Checkout items={cart.length} />
+          <Checkout />
         </Col>
       </Row>
     </div>

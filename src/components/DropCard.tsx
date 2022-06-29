@@ -1,7 +1,7 @@
 import { Button, Card, Checkbox, Tag, Typography } from "antd";
 import React, { useEffect, useRef, useState, useContext } from "react";
 import { useDispatch } from "react-redux";
-import { addToCart } from "../../redux/cart.slice";
+import { addToCart } from "../features/cart/cartSlice";
 
 const { Title } = Typography;
 
