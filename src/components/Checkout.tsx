@@ -20,7 +20,6 @@ export default function Checkout(items: DropNames) {
   const onChangeHandler = (event) => {
     SetInputValue(event.target.value);
   };
-
   const handleClick = async (event) => {
     if (totalQuantity > 25) {
       return <p>You can only order a maximum of 25 items at once.</p>;
