@@ -121,11 +121,11 @@ const CartSummary = ({ cart }) => {
                             paddingLeft: "8px",
                             lineHeight: "15px",
                           }}>
-                          <p style={{ fontSize: "80%", marginBottom: "0" }}>
+                          <p style={{ fontSize: "80%" }}>
                             {product.name}&nbsp;
                             <Tag color='cyan'>#{product.id}</Tag>
                           </p>
-                          <p style={{ fontSize: "80%", marginBottom: "0" }}>
+                          <p style={{ fontSize: "80%" }}>
                             {totalQuantity >= 5 ? "Unlimited" : "$95.00 each"}
                           </p>
                           <Row
@@ -144,7 +144,7 @@ const CartSummary = ({ cart }) => {
                                 marginBottom: "auto",
                                 alignItems: "center",
                               }}>
-                              <div
+                              {/* <div
                                 style={{
                                   display: "flex",
                                   justifyContent: "space-between",
@@ -172,12 +172,15 @@ const CartSummary = ({ cart }) => {
                                   }>
                                   +
                                 </Button>
-                              </div>
+                              </div> */}
                               <a
                                 onClick={() =>
                                   dispatch(removeFromCart(product.id))
                                 }
-                                style={{ fontSize: "14px", outline: 0 }}>
+                                style={{
+                                  fontSize: "80%",
+                                  outline: 0,
+                                }}>
                                 <DeleteOutlined />
                               </a>
                             </Col>
@@ -198,7 +201,7 @@ const CartSummary = ({ cart }) => {
             paddingRight: "14px",
             position: "absolute",
             right: "0",
-            bottom: "48px",
+            bottom: "72px",
           }}>
           {totalQuantity > 0 && (
             <p>
@@ -208,6 +211,7 @@ const CartSummary = ({ cart }) => {
             </p>
           )}
         </Col>
+
         <Col
           span={24}
           style={{

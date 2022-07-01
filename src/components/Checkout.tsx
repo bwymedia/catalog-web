@@ -1,7 +1,8 @@
+import { useState } from "react";
 import { useAppSelector } from "../hooks/hooks";
 import { NextPage } from "next";
 import { loadStripe } from "@stripe/stripe-js";
-import { Alert } from "antd";
+import { Row, Col, Alert, Input } from "antd";
 
 const stripePromise = loadStripe(
   `${process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY}`
@@ -10,11 +11,15 @@ const stripePromise = loadStripe(
 export type DropNames = { [itemNames: string]: string };
 
 export default function Checkout(items: DropNames) {
+  const [inputValue, SetInputValue] = useState(null);
   const cart = useAppSelector((state) => state.cart);
   const totalQuantity = cart.reduce((acc, curr) => acc + curr.quantity, 0);
-
   const itemNames = cart.map((item) => item.name);
-  itemNames.join();
+  const allIds = cart.map((item) => "#" + item.id);
+
+  const onChangeHandler = (event) => {
+    SetInputValue(event.target.value);
+  };
 
   const handleClick = async (event) => {
     if (totalQuantity > 25) {
@@ -26,8 +31,10 @@ export default function Checkout(items: DropNames) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        name: items,
+        allDropNames: itemNames,
         quantity: totalQuantity,
+        ids: allIds,
+        organization: inputValue,
       }),
     }).then((res) => res.json());
     const stripe = await stripePromise;
@@ -55,6 +62,16 @@ export default function Checkout(items: DropNames) {
       ) : (
         ""
       )}
+      <Row>
+        <Col span={24} style={{ marginBottom: "8px" }}>
+          <Input
+            value={inputValue}
+            onChange={onChangeHandler}
+            placeholder='Please Add Your Organization Name'
+            required
+          />
+        </Col>
+      </Row>
       <button
         style={{
           width: "100%",
@@ -65,7 +82,7 @@ export default function Checkout(items: DropNames) {
           boxShadow: "0 2px 0 rgb(0 0 0 / 5%)",
           textTransform: "uppercase",
         }}
-        className={totalQuantity > 25 || totalQuantity === 0 ? "disabled" : ""}
+        className={inputValue === null ? "disabled" : ""}
         role='link'
         onClick={() => {
           handleClick(event);

@@ -39,9 +39,6 @@ export default function DropCard({ drop }: Props) {
   const handleAddToCart = () => {
     dispatch(addToCart(drop));
     setIsAdded(true);
-    setTimeout(() => {
-      setIsAdded(false);
-    }, 3500);
   };
 
   return (

@@ -11,9 +11,8 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { quantity, items, cart } = req.body;
+  const { quantity, allDropNames, ids, organization } = req.body;
 
-  console.log(items);
   let productQuantity = quantity;
 
   if (quantity > 4) {
@@ -27,7 +26,6 @@ export default async function handler(
     mode: "payment",
     line_items: [
       {
-        description: items,
         price: `${
           quantity > 4
             ? process.env.ULIMITED_PRICE_ID
@@ -36,7 +34,15 @@ export default async function handler(
         quantity: productQuantity,
       },
     ],
-    metadata: { items },
+    phone_number_collection: {
+      enabled: true,
+    },
+    metadata: {
+      quantity: quantity,
+      name: allDropNames.toString(),
+      allIds: ids.toString(),
+      organization: organization,
+    },
     success_url: `${req.headers.origin}/success?session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: `${req.headers.origin}`,
   });
