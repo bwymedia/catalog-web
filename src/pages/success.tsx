@@ -14,10 +14,7 @@ const Success = () => {
   return (
     <div>
       <h1>Success</h1>
-      <p>
-        You have successfully submitted your order. We will get back to you
-        soon.
-      </p>
+      <p>You have successfully submitted your order.</p>
       <pre>{data ? JSON.stringify(data, null, 2) : "Loading"}</pre>
     </div>
   );
