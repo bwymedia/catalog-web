@@ -67,7 +67,7 @@ const CartSummary = ({ cart }) => {
               ? "You unlocked the Unlimited Drop Package!"
               : `Add ${5 - totalQuantity} more to get Unlimited drops`}
           </Title>
-          <div
+          {/* <div
             style={{
               display: "flex",
               paddingLeft: "14px",
@@ -77,7 +77,7 @@ const CartSummary = ({ cart }) => {
               fontSize: "2.5rem",
             }}>
             {arr}
-          </div>
+          </div> */}
 
           {totalQuantity === 0 ? (
             <div

@@ -43,8 +43,14 @@ export default function Checkout(items: DropNames) {
       {totalQuantity > 25 ? (
         <Alert
           type='warning'
-          style={{ marginBottom: 0, fontSize: "90%" }}
-          message='You can only order a maximum of 25 items at once.'
+          style={{
+            marginBottom: 0,
+            fontSize: "90%",
+            textAlign: "center",
+            paddingLeft: "4px",
+            paddingRight: "4px",
+          }}
+          message='You can only add 25 drops with the Unlimited.'
         />
       ) : (
         ""
