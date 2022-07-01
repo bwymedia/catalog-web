@@ -39,8 +39,8 @@ export default async function handler(
     },
     metadata: {
       quantity: quantity,
-      name: allDropNames.toString(),
-      allIds: ids.toString(),
+      allDropNames: allDropNames.toString(),
+      allDropIds: ids.toString(),
       organization: organization,
     },
     success_url: `${req.headers.origin}/success?session_id={CHECKOUT_SESSION_ID}`,
