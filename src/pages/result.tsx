@@ -25,9 +25,9 @@ const ResultPage: NextPage = () => {
         <h2>Status: {data?.payment_intent?.status ?? "loading..."}</h2>
         <h3>CheckoutSession response:</h3>
         <div
-          content={
-            data ? <pre>{JSON.stringify(data, 2, null)}</pre> : "loading..."
-          }
+        // content={
+        //   data ? <pre>{JSON.stringify(data, 2, null)}</pre> : "loading..."
+        // }
         />
         {/* <Cart>
           <ClearCart />
