@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
 import Stripe from "stripe";
-const stripe = new Stripe(`${process.env.STRIPE_LIVE_SECRET_KEY}`, {
+const stripe = new Stripe(`${process.env.STRIPE_RSH_LIVE_SECRET_KEY}`, {
   apiVersion: "2020-08-27",
 });
 
@@ -38,10 +38,11 @@ export default async function handler(
     mode: "payment",
     line_items: [
       {
-        price: `${process.env.TEST_PRODUCT_LIVE_PRICE_ID}`,
-        // quantity > 4
-        //   ? process.env.ULIMITED_LIVE_PRICE_ID
-        //   : process.env.SINGLE_LIVE_PRICE_ID
+        price: `${
+          quantity > 4
+            ? process.env.ULIMITED_RSH_LIVE_PRICE_ID
+            : process.env.SINGLE_RSH_LIVE_PRICE_ID
+        }`,
         quantity: productQuantity,
       },
     ],

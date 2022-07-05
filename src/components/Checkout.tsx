@@ -26,7 +26,7 @@ const validateMessages = {
 };
 
 const stripePromise = loadStripe(
-  `${process.env.NEXT_PUBLIC_STRIPE_LIVE_PUBLISHABLE_KEY}`
+  `${process.env.NEXT_PUBLIC_STRIPE_RSH_LIVE_PUBLISHABLE_KEY}`
 );
 
 export type DropNames = { [itemNames: string]: string };
