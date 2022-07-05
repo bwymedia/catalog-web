@@ -57,6 +57,24 @@ a {
   opacity: 0.5;
 }
 
+.ant-picker-input > input,
+.ant-form-item-control-input {
+}
+
+.ant-form-item {
+  margin: 0 4px 4px 4px;
+}
+
+.w-100,
+.ant-form-item .ant-form-item-label > label,
+.ant-form-horizontal .ant-form-item-control {
+  width: 100%;
+}
+
+.ant-col.ant-col-16.ant-form-item-control {
+  max-width: 100%;
+}
+
 /* FORM STYLING */
 .ant-form-inline .ant-form-item {
   margin-right: 0;

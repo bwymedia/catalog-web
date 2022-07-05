@@ -26,16 +26,16 @@ const CartSummary = ({ cart }) => {
 
   const quantity = cart.map((item) => item.quantity);
 
-  let arr = [];
-  quantity.forEach((item) => {
-    if (item >= 5) {
-      item = 5;
-    }
-    for (let i = 0; i < item; i++) {
-      arr.push(<CgClapperBoard key={i} />);
-    }
-    return arr;
-  });
+  // let arr = [];
+  // quantity.forEach((item) => {
+  //   if (item >= 5) {
+  //     item = 5;
+  //   }
+  //   for (let i = 0; i < item; i++) {
+  //     arr.push(<CgClapperBoard key={i} />);
+  //   }
+  //   return arr;
+  // });
   return (
     <div className={styles.active}>
       <Row style={{ lineHeight: "25px" }}>
@@ -201,7 +201,7 @@ const CartSummary = ({ cart }) => {
             paddingRight: "14px",
             position: "absolute",
             right: "0",
-            bottom: "72px",
+            bottom: "148px",
           }}>
           {totalQuantity > 0 && (
             <p>
