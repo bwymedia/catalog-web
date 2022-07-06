@@ -9,9 +9,8 @@ import moment from "moment";
 import useComponentVisible from "../hooks/useComponentVisible";
 
 const layout = {
-  labelCol: { span: 8 },
-  wrapperCol: { span: 16 },
-  fullCol: { span: 24 },
+  labelCol: { span: 24 },
+  wrapperCol: { span: 24 },
 };
 
 const validateMessages = {
@@ -33,8 +32,8 @@ export type DropNames = { [itemNames: string]: string };
 
 export default function Checkout(items: DropNames) {
   const [inputValue, SetInputValue] = useState("");
-  const [startDate, setStartDate] = useState(moment().format("DD-MM-YYYY"));
-  const [endDate, setEndDate] = useState(moment().format("DD-MM-YYYY"));
+  const [startDate, setStartDate] = useState(moment().format("MM-DD-YYYY"));
+  const [endDate, setEndDate] = useState(moment().format("MM-DD-YYYY"));
   const [dateFormatErrorMessage, setDateFormatErrorMessage] = useState("");
 
   const cart = useAppSelector((state) => state.cart);
@@ -45,10 +44,11 @@ export default function Checkout(items: DropNames) {
     }
   };
 
-  console.log(moment);
-
   const totalQuantity = cart.reduce((acc, curr) => acc + curr.quantity, 0);
-  const itemNames = cart.map((item) => item.name);
+  const itemNames = cart.map((item) => {
+    const name = `#${item.id} ${item.name}`;
+    return name;
+  });
   const allIds = cart.map((item) => "#" + item.id);
 
   const onChangeHandler = (event) => {
@@ -69,7 +69,6 @@ export default function Checkout(items: DropNames) {
       body: JSON.stringify({
         allDropNames: itemNames,
         quantity: totalQuantity,
-        ids: allIds,
         organization: inputValue,
         startDate: startDate,
         endDate: endDate,
@@ -83,31 +82,6 @@ export default function Checkout(items: DropNames) {
       console.error(error);
     }
   };
-
-  // const handleClick = async (event) => {
-  //   if (totalQuantity > 25) {
-  //     return <p>You can only order a maximum of 25 items at once.</p>;
-  //   }
-  //   const { sessionId } = await fetch("./api/checkout_session", {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify({
-  //       allDropNames: itemNames,
-  //       quantity: totalQuantity,
-  //       ids: allIds,
-  //       organization: inputValue,
-  //     }),
-  //   }).then((res) => res.json());
-  //   const stripe = await stripePromise;
-  //   const { error } = await stripe.redirectToCheckout({
-  //     sessionId,
-  //   });
-  //   if (error) {
-  //     console.error(error);
-  //   }
-  // };
 
   return (
     <div>
@@ -137,7 +111,7 @@ export default function Checkout(items: DropNames) {
           <Form.Item
             name={["user", "organization"]}
             label='Organization'
-            hasFeedback
+            help='Please add Organization name.'
             rules={[
               {
                 required: true,
@@ -151,11 +125,12 @@ export default function Checkout(items: DropNames) {
             label='First Date'
             hasFeedback
             validateTrigger='onBlur'
+            help='First Performance Date (MM-DD-YYYY).'
             rules={[
               {
                 type: "date",
                 required: true,
-                message: "Please use DD/MM/YYYY format.",
+                message: "First Performance Date (MM-DD-YYYY).",
               },
               // () => {
               //   {
@@ -178,18 +153,19 @@ export default function Checkout(items: DropNames) {
               value={startDate}
               // size='small'
               type='date'
-              style={{ width: "100%" }}
+              style={{ width: "100%", border: "1px solid #d9d9d9" }}
               placeholder='First Performance Date'
             />
           </Form.Item>
           <Form.Item
             name={["user", "endDate"]}
             label='Last Date'
+            help='Last Performance Date (MM-DD-YYYY).'
             rules={[
               {
                 type: "date",
                 required: true,
-                message: "Please use DD/MM/YYYY format.",
+                message: "Last Performance Date (MM-DD-YYYY).",
               },
               // () => {
               //   {
@@ -213,15 +189,13 @@ export default function Checkout(items: DropNames) {
             <input
               value={endDate}
               type='date'
-              // size='small'
-              style={{ width: "100%" }}
+              style={{ width: "100%", border: "1px solid #d9d9d9" }}
               placeholder='Last Performance Date'
             />
           </Form.Item>
           <Form.Item>
             <Button
               htmlType='submit'
-              // wrapperCol={{ ...layout.fullcol }}
               style={{
                 width: "100%",
                 color: "#fff",
@@ -233,54 +207,11 @@ export default function Checkout(items: DropNames) {
               }}
               role='link'
               onClick={() => form.submit()}>
-              Submit
+              Proceed to Checkout
             </Button>
           </Form.Item>
         </Form>
-        {/* <Col span={24} style={{ marginBottom: "8px" }}>
-          <Input
-            value={inputValue}
-            onChange={onChangeHandler}
-            style={{ fontSize: "80%" }}
-            placeholder='Please Add Your Organization Name'
-          />
-        </Col> */}
-        {/* <Col span={12} style={{ marginBottom: "8px" }}>
-          <DatePicker
-            placement='topLeft'
-            value={firstDate}
-            size='small'
-            style={{ fontSize: "80%", width: "100%" }}
-            placeholder='1st Performance Date'
-          />
-        </Col>
-        <Col span={12} style={{ marginBottom: "8px" }}>
-          <DatePicker
-            placement='topLeft'
-            value={endDate}
-            size='small'
-            style={{ fontSize: "80%", width: "100%" }}
-            placeholder='Last Performance Date'
-          />
-        </Col> */}
       </Row>
-      {/* <button
-        style={{
-          width: "100%",
-          color: "#fff",
-          borderColor: "#1890ff",
-          background: "#1890ff",
-          textShadow: "0 -1px 0 rgb(0 0 0 / 12%)",
-          boxShadow: "0 2px 0 rgb(0 0 0 / 5%)",
-          textTransform: "uppercase",
-        }}
-        className={inputValue === null ? "disabled" : ""}
-        role='link'
-        onClick={() => {
-          handleClick(event);
-        }}>
-        Proceed to Checkout
-      </button> */}
     </div>
   );
 }

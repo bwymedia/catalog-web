@@ -201,7 +201,7 @@ const CartSummary = ({ cart }) => {
             paddingRight: "14px",
             position: "absolute",
             right: "0",
-            bottom: "148px",
+            bottom: "230px",
           }}>
           {totalQuantity > 0 && (
             <p>
