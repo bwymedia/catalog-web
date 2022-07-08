@@ -82,15 +82,6 @@ export default function DropSearchForm({ tags, onSubmit, children }: Props) {
               </Button>
             </Form.Item>
           </Col>
-          {/* <Col xs={8} md={3} xl={2}>
-            <Form.Item>
-              <Button
-                style={{ width: "100%" }}
-                onClick={() => form.resetFields()}>
-                Clear
-              </Button>
-            </Form.Item>
-          </Col> */}
         </Row>
       </Space>
     </Form>
