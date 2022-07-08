@@ -2,6 +2,7 @@ import { Button, Card, Checkbox, Tag, Typography } from "antd";
 import React, { useEffect, useRef, useState, useContext } from "react";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../features/cart/cartSlice";
+import whiteLogo from "../assets/white_logo.png";
 
 const { Title } = Typography;
 
@@ -54,6 +55,7 @@ export default function DropCard({ drop }: Props) {
             muted
             loop
             width='320'
+            poster={drop.thumbnail}
           />
         )
       }>
