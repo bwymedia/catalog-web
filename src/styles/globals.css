@@ -74,12 +74,44 @@ a {
   opacity: 0.5;
 }
 
+.ant-picker-input > input,
+.ant-form-item-control-input {
+}
+
+.ant-form-item {
+  margin: 0 4px 4px 4px;
+}
+
+.w-100,
+.ant-form-item .ant-form-item-label > label,
+.ant-form-horizontal .ant-form-item-control {
+  width: 100%;
+}
+
+.ant-col.ant-col-16.ant-form-item-control {
+  max-width: 100%;
+}
+
 /* FORM STYLING */
 .ant-form-inline .ant-form-item {
   margin-right: 0;
 }
 form.ant-form-inline .ant-row {
   margin: 0;
+}
+
+#nest-messages label.ant-form-item-required {
+  display: none;
+}
+
+/* CUSTOM LANDSCAPE MOBILE */
+@media (max-width: 575px) {
+  #next-messages .ant-form .ant-form-item .ant-form-item-label {
+    max-width: 0%;
+  }
+  #next-messages .ant-col.ant-col-16.ant-form-item-control {
+    max-width: 100%;
+  }
 }
 
 /* CUSTOM < TABLET SCREEN SIZE */
@@ -89,6 +121,10 @@ form.ant-form-inline .ant-row {
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
     background: #f0f2f5;
+  }
+  #next-messages .ant-col.ant-col-16.ant-form-item-control,
+  #next-messages .ant-form .ant-form-item .ant-form-item-label {
+    width: 100%;
   }
 }
 

@@ -6,6 +6,7 @@ type ApiResource = {
 type Drop = ApiResource & {
   name: string;
   previewVideo?: string;
+  thumbnail?: string;
 };
 
 type Tag = ApiResource & {

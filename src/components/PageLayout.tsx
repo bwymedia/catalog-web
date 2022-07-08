@@ -7,11 +7,11 @@ import Link from "next/link";
 import { useSelector, useDispatch } from "react-redux";
 import { Layout, Row, Col, Menu, Dropdown, Button, Space } from "antd";
 import { ShoppingCartOutlined } from "@ant-design/icons";
-import { RootState } from "../../redux/store";
+import { RootState } from "../store/store";
 
 import catalogLogoSrc from "../assets/catalog_logo.webp";
 import whiteLogoSrc from "../assets/white_logo.png";
-import CartSummary from "./CartSummary";
+import CartSummary from "../features/cart/CartSummary";
 import useComponentVisible from "../hooks/useComponentVisible";
 
 const { Header } = Layout;

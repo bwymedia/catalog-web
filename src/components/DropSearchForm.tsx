@@ -19,8 +19,6 @@ interface Props {
 export default function DropSearchForm({ tags, onSubmit, children }: Props) {
   const [form] = Form.useForm<FormData>();
 
-  const [showAdvancedSearch, setShowAdvancedSearch] = useState(false);
-
   return (
     <Form
       layout='inline'
@@ -44,7 +42,7 @@ export default function DropSearchForm({ tags, onSubmit, children }: Props) {
               <Input allowClear style={{ width: "100%" }} />
             </Form.Item>
           </Col>
-          <Col xs={12} xl={5}>
+          <Col xs={12} xl={5} xxl={5}>
             <Form.Item label='Tag' name='tagId'>
               <Select allowClear style={{ width: "100%" }}>
                 {tags.map((tag) => (
@@ -55,7 +53,7 @@ export default function DropSearchForm({ tags, onSubmit, children }: Props) {
               </Select>
             </Form.Item>
           </Col>
-          <Col xs={12} xl={5}>
+          <Col xs={12} xl={5} xxl={5}>
             <Form.Item label='Location' name='location'>
               <Select allowClear style={{ width: "100%" }}>
                 <Option value='Interior'>Interior</Option>
@@ -63,7 +61,7 @@ export default function DropSearchForm({ tags, onSubmit, children }: Props) {
               </Select>
             </Form.Item>
           </Col>
-          <Col xs={12} xl={5}>
+          <Col xs={12} xl={5} xxl={5}>
             <Form.Item label='Time of Day' name='timeOfDay'>
               <Select allowClear style={{ width: "100%" }}>
                 <Option value='Sunrise'>Sunrise</Option>
@@ -74,7 +72,7 @@ export default function DropSearchForm({ tags, onSubmit, children }: Props) {
               </Select>
             </Form.Item>
           </Col>
-          <Col xs={8} md={3}>
+          <Col xs={8} md={3} xl={3}>
             <Form.Item>
               <Button
                 type='primary'

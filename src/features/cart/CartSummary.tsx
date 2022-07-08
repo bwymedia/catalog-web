@@ -4,13 +4,17 @@ import Image from "next/image";
 import { Row, Col, Tag, Button, Typography } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 
-import useComponentVisible from "../hooks/useComponentVisible";
+import { CgClapperBoard } from "react-icons/cg";
+
+import Checkout from "../../components/Checkout";
+import { useAppSelector } from "../../hooks/hooks";
+import useComponentVisible from "../../hooks/useComponentVisible";
 import {
   incrementQuantity,
   decrementQuantity,
   removeFromCart,
-} from "../../redux/cart.slice";
-import styles from "../styles/CartSummary.module.css";
+} from "./cartSlice";
+import styles from "./CartSummary.module.css";
 
 const { Title } = Typography;
 
@@ -18,6 +22,20 @@ const CartSummary = ({ cart }) => {
   const dispatch = useDispatch();
   const [visible, setVisible] = useState(false);
 
+  const totalQuantity = cart.reduce((acc, curr) => acc + curr.quantity, 0);
+
+  const quantity = cart.map((item) => item.quantity);
+
+  // let arr = [];
+  // quantity.forEach((item) => {
+  //   if (item >= 5) {
+  //     item = 5;
+  //   }
+  //   for (let i = 0; i < item; i++) {
+  //     arr.push(<CgClapperBoard key={i} />);
+  //   }
+  //   return arr;
+  // });
   return (
     <div className={styles.active}>
       <Row style={{ lineHeight: "25px" }}>
@@ -29,7 +47,39 @@ const CartSummary = ({ cart }) => {
             marginRight: "auto",
             width: "100%",
           }}>
-          {cart.length === 0 ? (
+          <Title
+            level={3}
+            style={{
+              paddingLeft: "14px",
+              paddingTop: "14px",
+              marginBottom: 0,
+            }}>
+            Shopping Cart
+          </Title>
+          <Title
+            level={5}
+            style={{
+              paddingLeft: "14px",
+              marginTop: 0,
+              marginBottom: 0,
+            }}>
+            {totalQuantity >= 5
+              ? "You unlocked the Unlimited Drop Package!"
+              : `Add ${5 - totalQuantity} more to get Unlimited drops`}
+          </Title>
+          {/* <div
+            style={{
+              display: "flex",
+              paddingLeft: "14px",
+              marginTop: ".25rem",
+              marginBottom: 0,
+              alignItems: "center",
+              fontSize: "2.5rem",
+            }}>
+            {arr}
+          </div> */}
+
+          {totalQuantity === 0 ? (
             <div
               style={{
                 textAlign: "center",
@@ -42,15 +92,6 @@ const CartSummary = ({ cart }) => {
             </div>
           ) : (
             <>
-              <Title
-                level={3}
-                style={{
-                  paddingLeft: "14px",
-                  paddingTop: "14px",
-                  marginBottom: 0,
-                }}>
-                My Cart
-              </Title>
               <ul
                 className={styles.cartItems}
                 style={{ listStyleType: "none", marginBottom: 0 }}>
@@ -62,6 +103,7 @@ const CartSummary = ({ cart }) => {
                           display: "flex",
                           height: "auto",
                           position: "relative",
+                          marginTop: "3px",
                         }}>
                         <Col xs={10} style={{ height: "100%" }}>
                           <div className={styles.videoContainer}>
@@ -79,12 +121,12 @@ const CartSummary = ({ cart }) => {
                             paddingLeft: "8px",
                             lineHeight: "15px",
                           }}>
-                          <p style={{ fontSize: "80%", marginBottom: "0" }}>
+                          <p style={{ fontSize: "80%" }}>
                             {product.name}&nbsp;
                             <Tag color='cyan'>#{product.id}</Tag>
                           </p>
-                          <p style={{ fontSize: "80%", marginBottom: "0" }}>
-                            $2.00
+                          <p style={{ fontSize: "80%" }}>
+                            {totalQuantity >= 5 ? "Unlimited" : "$95.00 each"}
                           </p>
                           <Row
                             style={{
@@ -102,7 +144,7 @@ const CartSummary = ({ cart }) => {
                                 marginBottom: "auto",
                                 alignItems: "center",
                               }}>
-                              <div
+                              {/* <div
                                 style={{
                                   display: "flex",
                                   justifyContent: "space-between",
@@ -130,12 +172,15 @@ const CartSummary = ({ cart }) => {
                                   }>
                                   +
                                 </Button>
-                              </div>
+                              </div> */}
                               <a
                                 onClick={() =>
                                   dispatch(removeFromCart(product.id))
                                 }
-                                style={{ fontSize: "14px", outline: 0 }}>
+                                style={{
+                                  fontSize: "80%",
+                                  outline: 0,
+                                }}>
                                 <DeleteOutlined />
                               </a>
                             </Col>
@@ -152,6 +197,24 @@ const CartSummary = ({ cart }) => {
         <Col
           span={24}
           style={{
+            paddingLeft: "14px",
+            paddingRight: "14px",
+            position: "absolute",
+            right: "0",
+            bottom: "230px",
+          }}>
+          {totalQuantity > 0 && (
+            <p>
+              Quantity: {totalQuantity}
+              <br />
+              Total: ${totalQuantity >= 5 ? "495" : `${totalQuantity * 95}`}
+            </p>
+          )}
+        </Col>
+
+        <Col
+          span={24}
+          style={{
             paddingLeft: "12px",
             paddingRight: "12px",
             position: "absolute",
@@ -159,12 +222,7 @@ const CartSummary = ({ cart }) => {
             width: "100%",
             height: "auto",
           }}>
-          <Button
-            type='primary'
-            className={cart.length === 0 ? `disabled` : ""}
-            style={{ width: "100%", textTransform: "uppercase" }}>
-            Proceed To Checkout
-          </Button>
+          <Checkout />
         </Col>
       </Row>
     </div>

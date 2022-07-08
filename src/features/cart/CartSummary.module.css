@@ -6,7 +6,7 @@
   top: 60px;
   right: -4px;
   width: 360px;
-  height: 404px;
+  height: 608px;
   box-shadow: 0 10px 20px rgb(0 0 0 / 19%), 0 6px 6px rgb(0 0 0 / 23%);
 }
 
@@ -29,7 +29,7 @@
   overflow-y: auto;
   width: 100%;
   padding: 14px;
-  max-height: 320px;
+  max-height: 223px;
 }
 
 .empty:before {
