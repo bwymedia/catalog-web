@@ -36,6 +36,9 @@ export default function Checkout(items: DropNames) {
   const [endDate, setEndDate] = useState(moment().format("MM-DD-YYYY"));
   const [dateFormatErrorMessage, setDateFormatErrorMessage] = useState("");
 
+  console.log(`start date: ${startDate}`);
+  console.log(`end date: ${endDate}`);
+
   const cart = useAppSelector((state) => state.cart);
 
   const validateDate = (value) => {
@@ -53,6 +56,14 @@ export default function Checkout(items: DropNames) {
 
   const onChangeHandler = (event) => {
     SetInputValue(event.target.value);
+  };
+
+  const onStartDateHandler = (e) => {
+    setStartDate(e.target.value);
+  };
+
+  const onEndDateHandler = (e) => {
+    setEndDate(e.target.value);
   };
 
   const [form] = Form.useForm();
@@ -153,8 +164,9 @@ export default function Checkout(items: DropNames) {
               value={startDate}
               // size='small'
               type='date'
+              onChange={onStartDateHandler}
               style={{ width: "100%", border: "1px solid #d9d9d9" }}
-              placeholder='First Performance Date'
+              // placeholder='First Performance Date'
             />
           </Form.Item>
           <Form.Item
@@ -189,8 +201,9 @@ export default function Checkout(items: DropNames) {
             <input
               value={endDate}
               type='date'
+              onChange={onEndDateHandler}
               style={{ width: "100%", border: "1px solid #d9d9d9" }}
-              placeholder='Last Performance Date'
+              // placeholder='Last Performance Date'
             />
           </Form.Item>
           <Form.Item>
