@@ -48,7 +48,7 @@ export default async function handler(
     phone_number_collection: {
       enabled: true,
     },
-    success_url: `${req.headers.origin}?session_id={CHECKOUT_SESSION_ID}`,
+    success_url: `${req.headers.origin}/success?session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: `${req.headers.origin}`,
   });
   res.status(200).json({ sessionId: session.id });
