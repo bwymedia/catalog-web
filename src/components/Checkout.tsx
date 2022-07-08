@@ -36,9 +36,6 @@ export default function Checkout(items: DropNames) {
   const [endDate, setEndDate] = useState(moment().format("MM-DD-YYYY"));
   const [dateFormatErrorMessage, setDateFormatErrorMessage] = useState("");
 
-  console.log(`start date: ${startDate}`);
-  console.log(`end date: ${endDate}`);
-
   const cart = useAppSelector((state) => state.cart);
 
   const validateDate = (value) => {
@@ -136,7 +133,7 @@ export default function Checkout(items: DropNames) {
             label='First Date'
             hasFeedback
             validateTrigger='onBlur'
-            help='First Performance Date (MM-DD-YYYY).'
+            help='First Performance Date.'
             rules={[
               {
                 type: "date",
@@ -172,7 +169,7 @@ export default function Checkout(items: DropNames) {
           <Form.Item
             name={["user", "endDate"]}
             label='Last Date'
-            help='Last Performance Date (MM-DD-YYYY).'
+            help='Last Performance Date.'
             rules={[
               {
                 type: "date",
